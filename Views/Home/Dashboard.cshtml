@@ -1,0 +1,79 @@
+@model List<Recordis>
+
+    <div style="display:flex">
+        <partial name="_toolbar" />
+        <a class="text-decoration-none" id="scaleContainer" href="/new-track"><i class="fa fa-plus " style="color:white" ></i></a>
+    </div>
+
+    <table class="table" style="color:white">
+        <thead>
+            <tr>
+                <th class="bg-secondary">#</th>
+                <th class="bg-secondary date" >TITLE</th>
+                <th class="bg-secondary date">ARTIST</th>
+                <th class="bg-secondary date">FILESIZE</th>
+                <th class="bg-secondary date">TOOLS</th>
+                <th class="bg-secondary date">COMMENTS</th>
+                <th class="bg-secondary date">VERSIONS</th>           
+                <th class="bg-secondary date">POST DATE</th>
+                <th class="bg-secondary date">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var sr="";
+            int i = 1;
+            foreach (Recordis t in @Model)
+            {
+            if(t.MediaFilePath!=null)
+            {
+            var cut = t.MediaFilePath.Split("wwwroot");
+            sr = cut[1];
+            }
+            <tr>
+                <!-- <th scope="row">@i <a href="/track/play/@t.RecordisId"><i class="fa fa-play" aria-hidden="true"></i></a> -->
+                <th scope="row">@i
+                    <audio controls>
+                        <source src="@sr" type='audio/mpeg'>
+                        Your browser does not support the audio element.
+                    </audio>
+                </th>
+                @{i++;}
+                <td><a class="text-decoration-none text-white border border-secondary rounded" href="/track/@t.RecordisId">@t.title</a></td>
+                <td class="font-fancy">@t.artist</td>
+                <td style="font-size: 0.8 rem;">@t.length</td>
+                <td>
+                    @foreach (var g in t.Gears)
+                    {
+                    <!-- @*<Either text or "@" toforce html output"*@ -->
+                    <a href=/gear/@g.GearId/info/ class="
+                    border border-info rounded link-warning text-decoration-none
+                    ">@g.Gear.title</a>
+                    @:&nbsp;
+                    }
+                </td>
+                <td>
+                    @t.Comments.Count
+                </td>
+                <td>
+                @if(t.Aversions!=null){
+                    @t.Aversions.Count
+                } else {<hr/>}
+                </td>
+                <td class="date">@t.CreatedAt</td>
+                <td>
+                    <a class="btn btn-warning text-decoration-none" href="@t.RecordisId/comment">
+                        <i style="color:white" class="fa fa-comment" aria-hidden="true"></i></a>
+                    <a href="/edit/track/@t.RecordisId" class="btn btn-success text-decoration-none"><i
+                            style="color: white" class="fa fa-edit"></i></a>
+                    <partial name="_delete" model="@t" />
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+    <!-- <a href="/new-track">Add a Track</a> -->
+
+    @section Scripts {
+    <script src="~/js/site.js"></script>
+    }

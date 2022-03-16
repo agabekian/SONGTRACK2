@@ -1,0 +1,323 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+body {
+  background-color: #4d4d4d !important;
+  color: #ebebf5 !important;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  /* background: url(../img/bg.jpg) 0 0 repeat; */
+  min-width: 20%;
+  max-width: 80%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+.font-fancy{
+  font-family: fantasy;
+}
+.form-box{
+  padding:5%;
+  background-color: #333333;
+  color: #c0c0c0;
+  width: 45.8%;
+}
+.anno{
+  font-family: fantasy;
+}
+
+.invert{
+  background-color: #333333;
+  color:white;
+}
+#scaleContainer{
+  font-size: 1.6rem;
+  margin-top: -5px;
+  /* zoom: 3.1;
+  -moz-transform: scale(3.1); */
+}
+table{
+  color:white;
+}
+.tester {
+  color: #0366d6;
+  border: 5px dotted rgb(83, 47, 6);
+}
+.date{
+  background-color: #1b6ec2 !important;
+  color:rgb(221, 230, 233);
+  font-size: 0.7rem;
+}
+.pretty-box {
+  outline:2px solid rgb(36, 31, 3);
+}
+.outline {
+  background-color: rgb(217, 221, 217);
+  border: 1px solir rgb(94, 92, 92);
+}
+
+.cool {
+  color: pink;
+  display: flex;
+  
+}
+.vers {
+  background-color: #605e61;
+  border-color: 2px solid plue;
+  border-radius: 12px;
+  color:white;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+a {
+  color: white;
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  white-space: nowrap;
+  line-height: 60px;
+  /* Vertically center the text there */
+}
+
+.sign {
+  color: "blue";
+
+}
+
+.container {
+  display: flex;
+  width: 1270px;
+  background-color: rgb(236, 230, 222);
+}
+
+
+.card {
+  padding: 5%;
+}
+
+.inverse {
+  color: rgb(248, 237, 237);
+}
+
+.form-line {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+.bottom {
+  margin: auto;
+}
+
+/* accordion-1 */
+#accordion-1{
+  /* position: relative; */
+  box-shadow: 0px 1px 7px #DBDBDB;
+}
+
+#accordion-1 .head{
+  background-color: #494848;
+  color: #dfd9e6;
+  padding: 20px 30px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#accordion-1 .arrow{
+  color: #ded6e6;
+  font-size: 60px;
+  transition: 0.25s ease;
+  opacity: 0.3;
+  transform: rotate(-90deg);
+}
+
+#accordion-1 .head:hover .arrow{
+  opacity: 1;
+}
+
+#accordion-1 .head:hover, #accordion-1 .active{
+  background-color: rgb(134, 70, 17);
+}
+
+#accordion-1 .arrow-animate{
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+#accordion-1 .content{
+  background-color: #FFFFFF;
+  display: none;
+  padding: 20px 30px;
+  color: #333333;
+}
+
+#accordion-2{
+  position: relative;
+  box-shadow: 0 1px 7px #DBDBDB;
+}
+
+#accordion-2 .head{
+  background-color: #FFFFFF;
+  color: #563e6e;
+  padding: 20px 30px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+#accordion-2 .arrow{
+  content:'';
+  position: absolute;
+  right: 0;
+  right: 30px;
+  top: 65px;
+  opacity: 1;
+  border-left: 35px solid transparent;
+  border-right: 35px solid transparent;
+  border-top: 40px solid #FFFFFF;
+  transition: 0.3s ease;
+  z-index: 2;
+}
+
+#accordion-2 .head:hover .arrow, #accordion-2 .arrow-animate{
+  border-top: 40px solid #FFE77AFF;
+  transform: translateY(40px);
+}
+
+#accordion-2 .content{
+  background-color: #FFFFFF;
+  display: none;
+  padding: 30px;
+  color: #333333;
+}
+
+#accordion-2 .head:hover, #accordion-2 .active{
+  background-color: #FFE77AFF; 
+}
+</div>
+
+.fixedElement {
+  background-color: #c0c0c0;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:100;
+}
+
+/* Style the form - display items horizontally */
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+/* Add some margins for each label */
+.form-inline label {
+  margin: 5px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline input {
+  vertical-align: middle;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+  padding: 10px 20px;
+  background-color: dodgerblue;
+  border: 1px solid #ddd;
+  color: white;
+}
+
+.form-inline button:hover {
+  background-color: royalblue;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+  .form-inline input {
+    margin: 10px 0;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

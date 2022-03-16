@@ -1,0 +1,43 @@
+@model Recordis
+
+    <!-- //asp-action requires METHOD from controller!! -->
+    <div style="visibility:hidden" class="form-group-row">
+        <span asp-validation-for="length" class="col-sm-8 offset-sm-4 text-danger"></span>
+        <label asp-for="length" class="col-sm-4"></label>
+        <input asp-for=" length" class="col-sm-8 form-control">
+    </div>
+
+    <div class="form-group-row">
+        <span asp-validation-for="title" class="col-sm-8 offset-sm-4 text-danger"></span>
+        <label asp-for="title" class="col-sm-4"></label>
+        <input asp-for=" title" class="col-sm-8 form-control">
+    </div>
+    <div class="form-group-row">
+        <span asp-validation-for="artist" class="col-sm-8 offset-sm-4 text-danger"></span>
+        <label asp-for="artist" class="col-sm-4"></label>
+        <input asp-for=" artist" class="col-sm-8 form-control">
+    </div>
+    <div class="form-group-row">
+        <span asp-validation-for="desc" class="col-sm-8 offset-sm-4 text-danger"></span>
+        <label asp-for="desc" class="col-sm-4"></label>
+        <textarea asp-for=" desc" class="col-sm-8 form-control" placeholder="Some notes:"></textarea>
+    </div>
+    
+
+    <!-- below is needed for further edits, since its a partial that covers both. post new and edit -->
+    <div style="display:none">
+        <span display:hidden asp-validation-for="MediaFilePath" ></span>
+        <label asp-for="MediaFilePath"></label>
+        <input asp-for="MediaFilePath">
+    </div>
+    <div style="visibility:hidden">
+        <span  asp-validation-for="fileName"></span>
+        <label asp-for="fileName"></label>
+        <input asp-for="fileName">
+    </div>
+
+    <input type="file" name="uploadFile" class="form-control" />
+    <hr/>
+    <div class="form-group-row">
+        <input class="btn btn-info" style="margin-left:40%" type="submit" value="Submit">
+    </div>

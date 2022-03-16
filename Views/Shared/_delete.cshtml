@@ -1,0 +1,17 @@
+@using cSharp2022.Models
+@model Recordis
+<!-- <h1>Id = @Model.title</h1>
+<h1>Id = @Model.RecordisId</h1> -->
+<span id="confirmDeleteSpan_@Model.RecordisId" style="display:none">
+    <span><span style="color:red">Delete?&nbsp;</span>
+    </span>
+    <a href="/delete/track/@Model.RecordisId" class="btn btn-danger">Yes</a>
+    <a href="#" onClick="confirmDelete('@Model.RecordisId',false)" class="btn btn-primary">No</a>
+</span>
+
+<span id="deleteSpan_@Model.RecordisId">
+    <a href="#" class="btn btn-danger" onClick="confirmDelete('@Model.RecordisId',true)"><i
+            class="fa fa-trash" aria-hidden="true"></i></a>
+</span>
+
+@*@section js enabler is not needed here, duh*@

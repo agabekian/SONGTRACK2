@@ -1,0 +1,13 @@
+@model Gear
+<!-- name of the actual model, not file name -->
+<div>
+    <partial name="_toolbar"/>
+        <div class="form-box">
+            <h3>Add New Tool</h3>
+            <form asp-action="createTool" asp-controller="Gearz" method="post">
+                <partial name="_form2" />
+            </form>
+        </div>
+    
+</div>
+

@@ -1,0 +1,32 @@
+
+<partial name="_toolbar" />
+
+@* ############## edit ################*@
+
+
+<h5 class="card-title">@Model.title</h5><a class="text-decoration-none" href="/gear/@Model.GearId/">edit</a>
+<p class="card-text">@Model.desc</p>
+
+<p>used on @Model.Recs.Count tracks out of @ViewBag.ToolStats.Count</p>
+<div class="pretty-box">
+    <p>used on following:</p>
+    @foreach(var x in @Model.Recs)
+    {
+    <p class="outline">@x.Recordis.title</p>
+    }
+</div>
+
+<div class="row">
+@foreach(var x in @Model.Images)
+    {
+    string[] cut = (x.Image.Path).Split("images\\");
+    <div class="card" style="width: 18rem;">
+        <img src=~/images/@cut[1] class="card-img-top" alt="tool photo">
+        <!-- image path must be truncated in order for the image to be displayed from allowed level -->
+        <div class="card-body">Caption</div>
+    </div>
+    }
+</div>
+
+    <a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
+        <button class="btn btn-success">+photos</button></a>

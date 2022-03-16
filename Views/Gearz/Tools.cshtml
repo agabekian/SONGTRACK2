@@ -1,0 +1,48 @@
+@using cSharp2022.Models
+@model List<Gear>
+    <div style="display:flex">
+        <partial name="_toolbar" />
+        <a class="text-decoration-none" id="scaleContainer" href="/new-tool-form/"><i class="fa fa-plus " style="color:white" ></i></a>
+    </div>
+
+    <table class="table" style="color:white" >
+        <thead >
+            <tr class="table-success">
+                <th>TAG</th>
+                <th>NOTES</th>
+                <th>ROLE</th>
+                <th><i class="fa fa-wrench"></i></th>
+            </tr>
+        </thead>
+        <tbody style="color:white">
+            @foreach (var tool in @Model){
+            <tr>
+                <td><a class="link-warning text-decoration-none" href="/gear/@tool.GearId/info/"><b>@tool.title</b></a>
+                </td>
+                <td >@tool.desc</td>
+                <td>@tool.role</td>
+                <!-- <a onClick = "return confirm('Sure to delete @tool.title ?')" href="/tools/@tool.GearId/del"><i class="fa fa-trash" aria-hidden="true"></i></a> -->
+                @* ############## edit #################*@
+                <td>
+                    <a class="btn btn-info text-decoration-none" href="/gear/@tool.GearId/"><i style="color:green"
+                            class="fa fa-edit" aria-hidden="true"></i></a>
+                    <span id="confirmDeleteSpan_@tool.GearId" style="display:none">
+                        <span style="color:red">DELETE</span> the tool @tool.title?
+                        <a href="/tools/@tool.GearId/del" class="btn btn-danger">Yes</a>
+                        <a href="#" onClick="confirmDelete('@tool.GearId',false)" class="btn btn-primary">No</a>
+                    </span>
+
+                    <span id="deleteSpan_@tool.GearId">
+                        <a href="#" class="btn btn-danger" onClick="confirmDelete('@tool.GearId',true)"><i
+                                class="fa fa-trash" aria-hidden="true"></i></a>
+                    </span>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- <button onClick="test()">TEST Connections</button> -->
+    @section Scripts {
+    <script src="~/js/site.js"></script>
+    }

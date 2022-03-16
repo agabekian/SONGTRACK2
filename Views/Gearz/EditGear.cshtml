@@ -1,0 +1,23 @@
+@model Gear
+
+<form asp-action="Update" asp-route-id = "@Model.GearId" asp-controller="Gearz" asp-method="post">
+        <div>
+            <span asp-validation-for="title"></span>
+            <label asp-for="title"></label>
+            <input asp-for="title">
+        </div>
+        <div>
+            <span asp-validation-for="desc"></span>
+            <label asp-for="desc"></label>
+            <input asp-for="desc">
+        </div>
+        <div>
+            <span asp-validation-for="role"></span>
+            <label asp-for="role"></label>
+            <input asp-for="role">
+        </div>
+
+            <input type="submit" value="Update">
+        </div>
+    
+    </form>

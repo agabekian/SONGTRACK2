@@ -1,0 +1,24 @@
+
+@model Connect
+
+<div class="card">
+    Add gear/person to the track
+    <hr>
+    @{var x = @ViewBag.theSong.Gears;}
+
+    @if(x!=null){
+    @foreach(var g in x){
+    <p>@g.Gear.title</p>
+    }
+    }
+    <form asp-action="ConnectTool" asp-route-trackId="@ViewBag.theSong.RecordisId" method="post">
+        <label asp-for="Gear"></label>
+        <select asp-for="GearId">
+            @foreach (var item in ViewBag.AllGear )
+            {
+            <option value="@item.GearId">@item.title</option>
+            }
+        </select>
+        <input type="submit" value="Add">
+    </form>
+</div>

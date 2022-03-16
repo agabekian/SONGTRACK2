@@ -1,0 +1,153 @@
+@using cSharp2022.Models
+@model Recordis
+<div style="display:flex">
+    <partial name="_toolbar" />
+</div>
+<!-- <button onClick="test()">test</button> -->
+<div>
+    <table class="table">
+        <thead style="color:white">
+            <tr>
+                <th>@Model.title <span class="anno">by&nbsp;</span><span class="invert"> @Model.artist</span></th>
+                <th>tools</th>
+                <!-- <th>
+                    <partial name="_selector" model="@Model" />
+                </th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="background-secondary">
+                <th scope="row">
+                    @if(Model.MediaFilePath!=null)
+                    {
+                    var sr = Model.MediaFilePath.Split("wwwroot");
+                    <p class="date">@sr[1] @Model.length</p>
+                    <audio controls>
+                        <source src="@sr[1]" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    }else{
+                    <p>no path found</p>
+                    }
+                </th>
+                <td>
+                    @foreach (var g in Model.Gears)
+                    {
+                    <!-- @*<Either text or "@" toforce html output"*@ -->
+                    <p>
+                        <a link-warning href=/gear/@g.GearId/info/
+                            class="border border-info text-warning rounded text-decoration-none">@g.Gear.title
+                        </a>
+                        <a class="text-white rounded text-decoration-none"
+                            href="/delete/@Model.RecordisId/@g.ConnectId"><i class="fa fa-window-close"></i>
+                        </a>
+                    </p>
+                    <!-- <text>-</text> -->
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="extra-info">
+        <p>@Model.desc</p>
+        <hr/>
+        <p>Date Info</p>
+        <p>
+            <partial name="_selector" model="@Model" />
+        </p>
+    
+    </div>
+    
+    <div>
+        <a class="btn btn-warning text-decoration-none" href="/@Model.RecordisId/comment">
+            <i style="color:white" class="fa fa-comment" aria-hidden="true"></i></a>
+
+        <a class="btn btn-success text-decoration-none" href="/edit/track/@Model.RecordisId">
+            <i style="color: white" class="fa fa-edit"></i></a>
+
+        <a class="btn btn-success text-decoration-none" href="/edit/track/add-version/@Model.RecordisId/">ADD
+            V</i></a>
+
+        <partial name="_delete" model="@Model" />
+
+    </div>
+
+
+
+    <div class="accordion" id="accordion-1">
+        <div class="head">
+            <h5>comments (@Model.Comments.Count)</h5>
+            <i class="fa fa-angle-down plus"></i>
+
+
+        </div>
+        <div class="content collapse">
+            <button class="btn btn-info" onclick="myFunction()">POST</button>
+
+            <div class="pretty-box">
+                @{var x = @Model.RecordisId;
+                Comment z = new Comment();
+                }
+                @foreach(var com in @Model.Comments)
+                {
+                <div class="outline">
+                    <span class="date"><em>@com.CreatedAt</em></span> @com.Title | @com.Content | <a
+                        href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
+                </div>
+                <!-- z = com; -->
+                }
+            </div>
+        </div>
+        <div id="myDIV" style="display:none">
+            <partial name="FormComment" model="@z">;
+        </div>
+    </div>
+    <div id="accordion-1">
+        <div class="head">
+            <h5>versions (@Model.Aversions.Count)</h5>
+            <i class="fa fa-angle-down arrow"></i>
+        </div>
+        <div class="content">
+            @if(Model.Aversions.Count>0)
+            {
+            foreach (var v in Model.Aversions)
+            {
+            if(v.MediaFilePath!=null)
+            {
+            var trimPath = v.MediaFilePath.Split("wwwroot");
+            <p>@trimPath[1] @Model.length</p>
+            <div class="vers">
+                <div>
+                    @v.Title
+                    @v.Length
+                </div>
+                <div>
+                    <audio controls>
+                        <source src="@trimPath[1]" type='audio/mpeg'>
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                <a style="color:aliceblue" href="/version/delete/@Model.RecordisId/@v.AversionId"><i
+                        class="fa fa-close"></i></a>
+            </div>
+            }
+            }
+            }
+            else
+            {
+            <p>no versions added/exist</p>
+            }
+        </div>
+    </div>
+
+</div>
+<div>
+    <a href="/convert/@Model.fileName">convert</a>
+</div>
+
+
+
+
+@section Scripts {
+<script src="~/js/site.js"></script>
+}
