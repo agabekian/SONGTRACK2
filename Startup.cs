@@ -24,7 +24,11 @@ namespace cSharp2022
         {
             //note adding Muh context here.
             services.AddDbContext<MuhContext>(options => options.UseMySql(Configuration["DBInfo:ConnectionString"]));
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession();
+
             // services.Configure<FormOptions>(opt =>
             // {
             //     opt.MultipartBodyLengthLimit = 52428800;
@@ -37,6 +41,7 @@ namespace cSharp2022
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc();
         }
 

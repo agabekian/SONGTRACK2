@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ARA\\Desktop\\SongTrack-master\\cSharp2022.csproj": {}
+    "C:\\Users\\ARA\\Desktop\\SONGTRACK+\\cSharp2022.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ARA\\Desktop\\SongTrack-master\\cSharp2022.csproj": {
+    "C:\\Users\\ARA\\Desktop\\SONGTRACK+\\cSharp2022.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ARA\\Desktop\\SongTrack-master\\cSharp2022.csproj",
+        "projectUniqueName": "C:\\Users\\ARA\\Desktop\\SONGTRACK+\\cSharp2022.csproj",
         "projectName": "cSharp2022",
-        "projectPath": "C:\\Users\\ARA\\Desktop\\SongTrack-master\\cSharp2022.csproj",
+        "projectPath": "C:\\Users\\ARA\\Desktop\\SONGTRACK+\\cSharp2022.csproj",
         "packagesPath": "C:\\Users\\ARA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ARA\\Desktop\\SongTrack-master\\obj\\",
+        "outputPath": "C:\\Users\\ARA\\Desktop\\SONGTRACK+\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ARA\\AppData\\Roaming\\NuGet\\NuGet.Config"

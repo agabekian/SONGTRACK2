@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\cSharp2022.csproj",
+  "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\cSharp2022.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14402,113 +14402,118 @@
   "RootNamespace": "cSharp2022",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\Landing.cshtml",
-      "TargetPath": "Views\\Home\\Landing.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_form1.cshtml",
-      "TargetPath": "Views\\Shared\\_form1.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_editEntry.cshtml",
-      "TargetPath": "Views\\Shared\\_editEntry.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\EditTrack.cshtml",
-      "TargetPath": "Views\\Home\\EditTrack.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\TrackDetails.cshtml",
-      "TargetPath": "Views\\Home\\TrackDetails.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\_ViewStart.cshtml",
-      "TargetPath": "Views\\_ViewStart.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_form2.cshtml",
-      "TargetPath": "Views\\Shared\\_form2.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_delete.cshtml",
-      "TargetPath": "Views\\Shared\\_delete.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_selector.cshtml",
-      "TargetPath": "Views\\Shared\\_selector.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\NewRecForm.cshtml",
-      "TargetPath": "Views\\Home\\NewRecForm.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_toolbar.cshtml",
-      "TargetPath": "Views\\Shared\\_toolbar.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\FormComment.cshtml",
-      "TargetPath": "Views\\Shared\\FormComment.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\dummy.cshtml",
-      "TargetPath": "Views\\Home\\dummy.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Gearz\\Tools.cshtml",
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Gearz\\Tools.cshtml",
       "TargetPath": "Views\\Gearz\\Tools.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Gearz\\AddToolForm.cshtml",
-      "TargetPath": "Views\\Gearz\\AddToolForm.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\Dashboard.cshtml",
-      "TargetPath": "Views\\Home\\Dashboard.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\_ViewImports.cshtml",
-      "TargetPath": "Views\\_ViewImports.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Shared\\_Layout.cshtml",
-      "TargetPath": "Views\\Shared\\_Layout.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Gearz\\EditGear.cshtml",
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Gearz\\EditGear.cshtml",
       "TargetPath": "Views\\Gearz\\EditGear.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Home\\AddVForm.cshtml",
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\_ViewStart.cshtml",
+      "TargetPath": "Views\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\dummy.cshtml",
+      "TargetPath": "Views\\Home\\dummy.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\EditTrack.cshtml",
+      "TargetPath": "Views\\Home\\EditTrack.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_editEntry.cshtml",
+      "TargetPath": "Views\\Shared\\_editEntry.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_Layout.cshtml",
+      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Gearz\\AddToolForm.cshtml",
+      "TargetPath": "Views\\Gearz\\AddToolForm.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_form2.cshtml",
+      "TargetPath": "Views\\Shared\\_form2.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\Dashboard.cshtml",
+      "TargetPath": "Views\\Home\\Dashboard.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\_ViewImports.cshtml",
+      "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\Landing.cshtml",
+      "TargetPath": "Views\\Home\\Landing.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_selector.cshtml",
+      "TargetPath": "Views\\Shared\\_selector.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\AddVForm.cshtml",
       "TargetPath": "Views\\Home\\AddVForm.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Gearz\\AddGearPhotosForm.cshtml",
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_accordionComments.cshtml",
+      "TargetPath": "Views\\Shared\\_accordionComments.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\FormComment.cshtml",
+      "TargetPath": "Views\\Shared\\FormComment.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_toolbar.cshtml",
+      "TargetPath": "Views\\Shared\\_toolbar.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\TrackDetails.cshtml",
+      "TargetPath": "Views\\Home\\TrackDetails.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Gearz\\ToolInfo.cshtml",
+      "TargetPath": "Views\\Gearz\\ToolInfo.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_delete.cshtml",
+      "TargetPath": "Views\\Shared\\_delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Home\\NewRecForm.cshtml",
+      "TargetPath": "Views\\Home\\NewRecForm.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Gearz\\AddGearPhotosForm.cshtml",
       "TargetPath": "Views\\Gearz\\AddGearPhotosForm.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK\\Views\\Gearz\\ToolInfo.cshtml",
-      "TargetPath": "Views\\Gearz\\ToolInfo.cshtml",
+      "FilePath": "c:\\Users\\ARA\\Desktop\\SONGTRACK+\\Views\\Shared\\_form1.cshtml",
+      "TargetPath": "Views\\Shared\\_form1.cshtml",
       "FileKind": "mvc"
     }
   ],

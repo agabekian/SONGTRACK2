@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;   
 using cSharp2022.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using cSharp2022.Extensions;
 using System.Drawing;
-
 // Try to avoid ViewData and ViewBag . try to use strongly typed ViewModels. 
 // That makes your code clean (and the next developer who is gonna maintain your code, HAPPY)
 namespace cSharp2022
@@ -39,9 +39,31 @@ namespace cSharp2022
             .Include(g => g.Gears)
             .ThenInclude(con => con.Gear)
             .ToList();
-
             return View("Dashboard", AllRecs); //i did not specify index since it will find it anyhow via line 24
         }
+
+        [HttpGet("/track/comments/{recId}")]
+        public JsonResult RetrieveComments(int recId)
+        {
+            Recordis TheTrack = _context.Recs
+            .Include(c=>c.Comments)
+            .FirstOrDefault(t => t.RecordisId == recId);
+            
+            Comment bubble = HttpContext.Session.GetObjectFromJson<Comment>("Thoughts");
+
+            List <Comment> coms = TheTrack.Comments;
+            if(coms == null)
+            {
+                HttpContext.Session.SetObjectAsJson("Thoughts", coms);
+                return Json(coms);
+            }
+            else 
+            {
+                return Json(coms);
+            }
+
+        }
+        
 
         [HttpGet("track/{recId}")]
         public ViewResult TrackDetails(int recId)

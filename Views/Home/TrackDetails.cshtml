@@ -1,9 +1,7 @@
-@using cSharp2022.Models
 @model Recordis
 <div style="display:flex">
     <partial name="_toolbar" />
 </div>
-<!-- <button onClick="test()">test</button> -->
 <div>
     <table class="table">
         <thead style="color:white">
@@ -72,36 +70,8 @@
 
     </div>
 
+    <partial name="_accordionComments" model="@Model" />
 
-
-    <div class="accordion" id="accordion-1">
-        <div class="head">
-            <h5>comments (@Model.Comments.Count)</h5>
-            <i class="fa fa-angle-down plus"></i>
-
-
-        </div>
-        <div class="content collapse">
-            <button class="btn btn-info" onclick="myFunction()">POST</button>
-
-            <div class="pretty-box">
-                @{var x = @Model.RecordisId;
-                Comment z = new Comment();
-                }
-                @foreach(var com in @Model.Comments)
-                {
-                <div class="outline">
-                    <span class="date"><em>@com.CreatedAt</em></span> @com.Title | @com.Content | <a
-                        href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
-                </div>
-                <!-- z = com; -->
-                }
-            </div>
-        </div>
-        <div id="myDIV" style="display:none">
-            <partial name="FormComment" model="@z">;
-        </div>
-    </div>
     <div id="accordion-1">
         <div class="head">
             <h5>versions (@Model.Aversions.Count)</h5>

@@ -41,13 +41,21 @@ $('.head').click(function(){
   }
 
   $(document).ready(function() {
+  //   function populatePage(data){
+  //     $("#xxx").html("XXX")
+  // }
+  // $.get("/track/comments/1",data=> {
+  //     console.log(data)
+  //     populatePage(data)
+  // })
+
     // Get saved data from sessionStorage
     let selectedCollapse = sessionStorage.getItem('selectedCollapse');
     if(selectedCollapse != null) {
       $('.accordion .collapse').removeClass('show');
       $(selectedCollapse).addClass('show');
     }
-    //To set, which one will be opened
+    
     $('.accordion .reveal').on('click', function(){ 
       let target = $(this).data('target');
       //Save data to sessionStorage

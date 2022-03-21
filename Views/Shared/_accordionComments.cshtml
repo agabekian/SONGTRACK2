@@ -1,0 +1,74 @@
+@model Recordis
+
+
+<div class="accordion" id="accordion-1">
+    <div class="head">
+        <div id="xxx">jquery-data</div>
+        <h5>comments (@Model.Comments.Count)</h5>
+
+
+        <i class="fa fa-angle-down plus"></i>
+
+
+    </div>
+
+    <div class="content collapse">
+        <!-- <div  id="xxx"></div> -->
+
+        <script>
+            var id = "@Model.RecordisId"; //passing razor var into js , notice the QUOTES
+            $(document).ready(function () {
+                function populatePage(data) {
+                    $.each(data, function (key, value) {
+                        // alert(key + ":" + value.title);
+                        $("#xxx").html(value.content)
+                    })
+                }
+                var url = "/track/comments/" + id
+                $.get(url, data => { //ajax call 
+                    console.log(data)
+                    populatePage(data);
+                })
+            });
+        </script>
+
+        <button class="btn btn-info" onclick="myFunction()">POST</button>
+
+
+
+        <div id="Commentlist" class="pretty-box">
+            @{var x = @Model.RecordisId;
+            Comment z = new Comment();
+            }
+            @foreach(var com in @Model.Comments)
+            {
+            <div class="outline">
+                <span class="date"><em>@com.CreatedAt</em></span>
+                <div>
+                    @com.Title
+                    @com.Content
+                </div>
+                <a href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
+            </div>
+            <!-- z = com; -->
+            }
+            @section Scripts
+            {
+            <script>
+                $("#clicklink").click(function () {
+                    $.ajax({
+                        type: "get",
+                        url: "/CommentList?handler=AllComment",
+                        success: function (response) {
+                            $("#commentlist").html(response);
+                        }
+                    });
+                });
+            </script>
+            }
+        </div>
+    </div>
+    <div id="myDIV" style="display:none">
+        <partial name="FormComment" model="@z">;
+    </div>
+</div>
