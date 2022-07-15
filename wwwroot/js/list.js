@@ -1,7 +1,7 @@
 /*! List.js v1.5.0 (http://listjs.com) by Jonny Strömberg (http://javve.com) */
 
 function test(){
-  alert("hello")
+  alert("hello from list.js")
 }
 
 var List =
