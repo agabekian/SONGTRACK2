@@ -1,9 +1,4 @@
 ﻿
-function test() {
-    alert("JS connected");
-}
-
-
 
 function confirmDelete(id, isDeleteClicked) {
     let deleteSpan = "deleteSpan_" + id;

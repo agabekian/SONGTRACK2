@@ -1,25 +1,28 @@
 @model List<Recordis>
+    <button onClick="test()">xxx</button>
 
     <div style="display:flex">
         <partial name="_toolbar" />
         <a class="text-decoration-none" id="scaleContainer" href="/new-track"><i class="fa fa-plus " style="color:white" ></i></a>
     </div>
-
+    <div id="sortable_table_wrapper">
+        <!-- for list.js SEARCH to work encapsulate table into div with appropriate main id ("stw") -->
     <table class="table" style="color:white">
+        <input class="search" placeholder="Search by keyword">
         <thead>
             <tr>
-                <th class="bg-secondary">#</th>
-                <th class="bg-secondary date" >TITLE</th>
-                <th class="bg-secondary date">ARTIST</th>
-                <th class="bg-secondary date">FILESIZE</th>
-                <th class="bg-secondary date">TOOLS</th>
-                <th class="bg-secondary date">COMMENTS</th>
+                <th class="bg-secondary sort" data-sort="nums">#</th>
+                <th class="bg-secondary date sort" data-sort="title">TITLE</th>
+                <th class="bg-secondary date sort" data-sort="artist">ARTIST</th>
+                <th class="bg-secondary date sort" data-sort="filesize">FILESIZE</th>
+                <th class="bg-secondary date sort" data-sort="tools">TOOLS</th>
+                <th class="bg-secondary date sort" data-sort="comments">COMMENTS</th>
                 <th class="bg-secondary date">VERSIONS</th>           
-                <th class="bg-secondary date">POST DATE</th>
+                <th class="bg-secondary date sort" data-sort="postdate">POST DATE</th>
                 <th class="bg-secondary date">ACTIONS</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="list">
             @{var sr="";
             int i = 1;
             foreach (Recordis t in @Model)
@@ -38,10 +41,10 @@
                     </audio>
                 </th>
                 @{i++;}
-                <td><a class="text-decoration-none text-white border border-secondary rounded" href="/track/@t.RecordisId">@t.title</a></td>
-                <td class="font-fancy">@t.artist</td>
-                <td style="font-size: 0.8 rem;">@t.length</td>
-                <td>
+                <td><a class="text-decoration-none text-white border border-secondary rounded title" href="/track/@t.RecordisId">@t.title</a></td>
+                <td class="font-fancy artist">@t.artist</td>
+                <td class="filesize" style="font-size: 0.8 rem;">@t.length</td>
+                <td class="tools">
                     @foreach (var g in t.Gears)
                     {
                     <!-- @*<Either text or "@" toforce html output"*@ -->
@@ -51,8 +54,8 @@
                     @:&nbsp;
                     }
                 </td>
-                <td>
-                    @t.Comments.Count
+                <td class="comments">
+                    <a>@t.Comments.Count</a>
                 </td>
                 <td>
                 @if(t.Aversions!=null){
@@ -70,10 +73,24 @@
             </tr>
             }
             }
+
         </tbody>
     </table>
+</div>
     <!-- <a href="/new-track">Add a Track</a> -->
+    <script>
+        var options = {
+            valueNames: ['title','test','artist','filesize','tools','comments']
+            // get id named correctly , th - add "data-sort" attrib and class name(as in valNames) also matching class for td
+        };
+        var sortable_table_wrapper = new List('sortable_table_wrapper', options);
+        sortable_table_wrapper.sort("title", {
+            order: "title"
+        });
+    </script>
+
 
     @section Scripts {
     <script src="~/js/site.js"></script>
+    <script src="~/js/list.js"></script>
     }
