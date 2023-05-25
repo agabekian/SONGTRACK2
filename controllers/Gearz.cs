@@ -13,7 +13,7 @@ namespace cSharp2022
     public class GearzController : Controller
     {
         private MuhContext _context;
-        // "inject" context service into the constructor
+        // "inject" context service into the constructor.
         public GearzController(MuhContext context)
         {
             _context = context;
