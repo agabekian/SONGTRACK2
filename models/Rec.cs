@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace cSharp2022.Models
 {
-    public class Recordis //I can call it whatever, since it's just a handle for what will buil out a table based on it's contents
+    public class Recordis
     {
         [Key]
         public int RecordisId { get; set; }
@@ -27,20 +27,15 @@ namespace cSharp2022.Models
         
 
         [Required]
-        [Display(Name = "artisto", Prompt ="Armasconi")]
-        [MinLength(1, ErrorMessage = "Artisto name required")]
+        [Display(Name = "artist", Prompt ="Armasconi")]
+        [MinLength(1, ErrorMessage = "Artist name required")]
         public string artist { get; set; }
-
-        
         public string fileName {get; set;}
-
         public string MediaFilePath { get; set; }
         public List<Connect> Gears { get; set; }//nav props
         public List<Comment> Comments { get; set; }
         public List<Aversion> Aversions { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
     }
 }

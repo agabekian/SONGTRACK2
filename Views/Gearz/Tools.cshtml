@@ -1,25 +1,27 @@
 @using cSharp2022.Models
 @model List<Gear>
-    <div style="display:flex">
-        <partial name="_toolbar" />
-        <a class="text-decoration-none" id="scaleContainer" href="/new-tool-form/"><i class="fa fa-plus " style="color:white" ></i></a>
-    </div>
+<div style="display:flex">
+    <partial name="_toolbar" />
+    <a class="text-decoration-none" id="scaleContainer" href="/new-tool-form/"><i class="fa fa-plus "
+            style="color:white"></i></a>
+</div>
 
-    <table class="table" style="color:white" >
-        <thead >
-            <tr class="table-success">
-                <th>TAG</th>
-                <th>NOTES</th>
-                <th>ROLE</th>
-                <th><i class="fa fa-wrench"></i></th>
-            </tr>
-        </thead>
-        <tbody style="color:white">
-            @foreach (var tool in @Model){
+<table class="table" style="color:white">
+    <thead>
+        <tr class="table-success">
+            <th>TAG</th>
+            <th>NOTES</th>
+            <th>ROLE</th>
+            <th><i class="fa fa-wrench"></i></th>
+        </tr>
+    </thead>
+    <tbody style="color:white">
+        @foreach (var tool in @Model)
+        {
             <tr>
                 <td><a class="link-warning text-decoration-none" href="/gear/@tool.GearId/info/"><b>@tool.title</b></a>
                 </td>
-                <td >@tool.desc</td>
+                <td>@tool.desc</td>
                 <td>@tool.role</td>
                 <!-- <a onClick = "return confirm('Sure to delete @tool.title ?')" href="/tools/@tool.GearId/del"><i class="fa fa-trash" aria-hidden="true"></i></a> -->
                 @* ############## edit #################*@
@@ -38,11 +40,11 @@
                     </span>
                 </td>
             </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
-    <!-- <button onClick="test()">TEST Connections</button> -->
-    @section Scripts {
+<!-- <button onClick="test()">TEST Connections</button> -->
+@section Scripts {
     <script src="~/js/site.js"></script>
-    }
+}

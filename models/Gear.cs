@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace cSharp2022.Models
 {
-    public class Gear //I can call it whatever, it's just a handle for what'll be a db table based on it's contents
+    public class Gear
     {
         [Key]
         public int GearId { get; set; }
@@ -21,12 +20,12 @@ namespace cSharp2022.Models
         public string desc { get; set; }
 
         [Required]
-        [Display(Name = "Role description", Prompt ="Producer, Bass, etc")]
+        [Display(Name = "Role description", Prompt = "Producer, Bass, etc")]
         [MinLength(2, ErrorMessage = "The description is required")]
         public string role { get; set; }
 
         public List<Connect> Recs { get; set; }
-        public List<Album> Images { get; set; }//nav prop
+        public List<Album> Images { get; set; }  //nav prop
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }

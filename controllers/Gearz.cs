@@ -1,22 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using cSharp2022.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-using System.Drawing;
 
 namespace cSharp2022
 {
     public class GearzController : Controller
     {
         private MuhContext _context;
-        // here we can "inject" our context service into the constructor
+        // "inject" context service into the constructor
         public GearzController(MuhContext context)
         {
             _context = context;
@@ -39,8 +36,8 @@ namespace cSharp2022
         [HttpGet("/tools/")]
         public IActionResult Tools()
         {
-            List<Gear> store = _context.Gears.ToList();
-            return View(store);
+            List<Gear> allTools = _context.Gears.ToList();
+            return View(allTools);
         }
 
         [HttpGet("/new-tool-form/")]
@@ -56,7 +53,7 @@ namespace cSharp2022
             {
                 _context.Add(FromForm);
                 _context.SaveChanges();
-                return RedirectToAction("Tools");//this way, method here not actual route string, "".
+                return RedirectToAction("Tools");
             }
             else
             {
@@ -77,7 +74,17 @@ namespace cSharp2022
             return View("AddGearPhotosForm");
         }
 
-        // [HttpGet("/delete/tool/{toolId}/")]
+        [HttpGet("/gear/{imgId}/delete-photo")]
+        public IActionResult DeleteImage(int imgId)
+        {
+            Image imageToDelete = _context.Images.FirstOrDefault(i => i.Id == imgId);
+            System.IO.File.Delete(imageToDelete.Path); //delete file from wwwroot altogether
+            _context.Remove(imageToDelete); //del refs
+            _context.SaveChanges();
+ 
+            return RedirectToAction("Tools");
+        }
+
         [HttpGet("tools/{toolId}/del")]
         public IActionResult DeleteTool(int toolId)
         {
@@ -90,7 +97,6 @@ namespace cSharp2022
 
         [HttpPost("/gear/{gId}/add-photos/")]
         public async Task<IActionResult> IndexAsync(Image image, IFormFile uploadFile, int gId)
-        // Microsoft.AspNetCore.Http 
         {
             if (uploadFile != null && uploadFile.Length > 0)
             {
@@ -115,29 +121,27 @@ namespace cSharp2022
             }
             return GearInfo(gId);
         }
+        
         [HttpPost("update/{id}")]
         public IActionResult Update(int id, Gear FromForm)
         {
             if (ModelState.IsValid)
             {
-                // Dish RetrievedDish = _context.Dishes.FirstOrDefault(d => d.DishId == id);//was causing error
                 if (!_context.Gears.Any(d => d.GearId == id))//important! try to understand
-                // if (RetrievedDish == null)//obsolete
                 {
                     return RedirectToAction("Dash");
                 }
-                
+
                 FromForm.GearId = id;
                 _context.Entry(FromForm).Property("CreatedAt").IsModified = false;
                 _context.Update(FromForm);
                 _context.SaveChanges();
-                return RedirectToAction("GearInfo",new {gearId=id});
+                return RedirectToAction("GearInfo", new { gearId = id });
             }
             else
             {
                 return View("EditGear");
             }
         }
-
     }
 }

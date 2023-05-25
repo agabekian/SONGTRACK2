@@ -11,9 +11,7 @@ namespace cSharp2022.Models
         public int CommentId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-
         public int RecordisId { get; set; }
-
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }

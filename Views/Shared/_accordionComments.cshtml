@@ -1,15 +1,10 @@
 @model Recordis
 
-
 <div class="accordion" id="accordion-1">
     <div class="head">
         <div id="xxx">jquery-data</div>
         <h5>comments (@Model.Comments.Count)</h5>
-
-
         <i class="fa fa-angle-down plus"></i>
-
-
     </div>
 
     <div class="content collapse">
@@ -34,37 +29,36 @@
 
         <button class="btn btn-info" onclick="myFunction()">POST</button>
 
-
-
         <div id="Commentlist" class="pretty-box">
-            @{var x = @Model.RecordisId;
-            Comment z = new Comment();
+            @{
+                var x = @Model.RecordisId;
+                Comment z = new Comment();
             }
-            @foreach(var com in @Model.Comments)
+            @foreach (var com in @Model.Comments)
             {
-            <div class="outline">
-                <span class="date"><em>@com.CreatedAt</em></span>
-                <div>
-                    @com.Title
-                    @com.Content
+                <div class="outline">
+                    <span class="date"><em>@com.CreatedAt</em></span>
+                    <div>
+                        @com.Title
+                        @com.Content
+                    </div>
+                    <a href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
                 </div>
-                <a href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
-            </div>
-            <!-- z = com; -->
+                <!-- z = com; -->
             }
             @section Scripts
-            {
-            <script>
-                $("#clicklink").click(function () {
-                    $.ajax({
-                        type: "get",
-                        url: "/CommentList?handler=AllComment",
-                        success: function (response) {
-                            $("#commentlist").html(response);
-                        }
+                {
+                <script>
+                    $("#clicklink").click(function () {
+                        $.ajax({
+                            type: "get",
+                            url: "/CommentList?handler=AllComment",
+                            success: function (response) {
+                                $("#commentlist").html(response);
+                            }
+                        });
                     });
-                });
-            </script>
+                </script>
             }
         </div>
     </div>
