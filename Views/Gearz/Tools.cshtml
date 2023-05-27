@@ -1,18 +1,18 @@
 @using cSharp2022.Models
 @model List<Gear>
-<div style="display:flex">
-    <partial name="_toolbar" />
-    <a class="text-decoration-none" id="scaleContainer" href="/new-tool-form/"><i class="fa fa-plus "
-            style="color:white"></i></a>
-</div>
 
+    <a class="text-decoration-none" id="scaleContainer" href="/new-tool-form/"><i class="fa fa-plus "
+            style="color:white"></i>
+    </a>
+
+    <div id="sortable_table_wrapper">
 <table class="table" style="color:white">
     <thead>
-        <tr class="table-success">
-            <th>TAG</th>
-            <th>NOTES</th>
-            <th>ROLE</th>
-            <th><i class="fa fa-wrench"></i></th>
+        <tr>
+            <th class="bg-secondary date sort">TAG</th>
+            <th class="bg-secondary date sort">NOTES</th>
+            <th class="bg-secondary date sort">ROLE</th>
+            <th class="bg-secondary date sort"><i class="fa fa-wrench"></i></th>
         </tr>
     </thead>
     <tbody style="color:white">
@@ -43,6 +43,7 @@
         }
     </tbody>
 </table>
+    </div>
 
 <!-- <button onClick="test()">TEST Connections</button> -->
 @section Scripts {

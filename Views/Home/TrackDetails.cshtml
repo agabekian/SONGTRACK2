@@ -1,12 +1,10 @@
 @model Recordis
-<div style="display:flex">
-    <partial name="_toolbar" />
-</div>
 <div>
     <table class="table">
         <thead style="color:white">
             <tr>
-                <th>@Model.title <span class="anno">by&nbsp;</span><span class="invert"> @Model.artist</span></th>
+                <th>@Model.title <span class="anno">by&nbsp; 
+                </span><span class="invert"> @Model.artist</span></th>
                 <th>tools</th>
                 <!-- <th>
                     <partial name="_selector" model="@Model" />
@@ -16,31 +14,33 @@
         <tbody>
             <tr class="background-secondary">
                 <th scope="row">
-                    @if(Model.MediaFilePath!=null)
+                    @if (Model.MediaFilePath != null)
                     {
-                    var sr = Model.MediaFilePath.Split("wwwroot");
-                    <p class="date">@sr[1] @Model.length</p>
-                    <audio controls>
-                        <source src="@sr[1]" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    }else{
-                    <p>no path found</p>
+                        var sr = Model.MediaFilePath.Split("wwwroot");
+                        <p class="date">@Model.MediaFilePath @Model.length</p>
+                        <audio controls>
+                            <source src="@sr[1]" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    }
+                    else
+                    {
+                        <p>no path found</p>
                     }
                 </th>
                 <td>
                     @foreach (var g in Model.Gears)
                     {
-                    <!-- @*<Either text or "@" toforce html output"*@ -->
-                    <p>
-                        <a link-warning href=/gear/@g.GearId/info/
-                            class="border border-info text-warning rounded text-decoration-none">@g.Gear.title
-                        </a>
-                        <a class="text-white rounded text-decoration-none"
-                            href="/delete/@Model.RecordisId/@g.ConnectId"><i class="fa fa-window-close"></i>
-                        </a>
-                    </p>
-                    <!-- <text>-</text> -->
+                        <!-- @*<Either text or "@" toforce html output"*@ -->
+                        <p>
+                            <a link-warning href=/gear/@g.GearId/info/
+                                class="border border-info text-warning rounded text-decoration-none">@g.Gear.title
+                            </a>
+                            <a class="text-white rounded text-decoration-none"
+                                href="/delete/@Model.RecordisId/@g.ConnectId"><i class="fa fa-window-close"></i>
+                            </a>
+                        </p>
+                        <!-- <text>-</text> -->
                     }
                 </td>
             </tr>
@@ -48,14 +48,14 @@
     </table>
     <div class="extra-info">
         <p>@Model.desc</p>
-        <hr/>
+        <hr />
         <p>Date Info</p>
         <p>
             <partial name="_selector" model="@Model" />
         </p>
-    
+
     </div>
-    
+
     <div>
         <a class="btn btn-warning text-decoration-none" href="/@Model.RecordisId/comment">
             <i style="color:white" class="fa fa-comment" aria-hidden="true"></i></a>
@@ -78,46 +78,42 @@
             <i class="fa fa-angle-down arrow"></i>
         </div>
         <div class="content">
-            @if(Model.Aversions.Count>0)
+            @if (Model.Aversions.Count > 0)
             {
-            foreach (var v in Model.Aversions)
-            {
-            if(v.MediaFilePath!=null)
-            {
-            var trimPath = v.MediaFilePath.Split("wwwroot");
-            <p>@trimPath[1] @Model.length</p>
-            <div class="vers">
-                <div>
-                    @v.Title
-                    @v.Length
-                </div>
-                <div>
-                    <audio controls>
-                        <source src="@trimPath[1]" type='audio/mpeg'>
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
-                <a style="color:aliceblue" href="/version/delete/@Model.RecordisId/@v.AversionId"><i
-                        class="fa fa-close"></i></a>
-            </div>
-            }
-            }
+                foreach (var v in Model.Aversions)
+                {
+                    if (v.MediaFilePath != null)
+                    {
+                        var trimPath = v.MediaFilePath.Split("wwwroot");
+                        <p>@trimPath[1] @Model.length</p>
+                        <div class="vers">
+                            <div>
+                                @v.Title
+                                @v.Length
+                            </div>
+                            <div>
+                                <audio controls>
+                                    <source src="@trimPath[1]" type='audio/mpeg'>
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <a style="color:aliceblue" href="/version/delete/@Model.RecordisId/@v.AversionId"><i
+                                    class="fa fa-close"></i></a>
+                        </div>
+                    }
+                }
             }
             else
             {
-            <p>no versions added/exist</p>
+                <p>no versions added/exist</p>
             }
         </div>
     </div>
-
-</div>
-<div>
-    <a href="/convert/@Model.fileName">convert</a>
-</div>
-
-
+@* <div>
+    <a href="/convert/@Model.fileName">convert</a> //to implement
+</div> *@
 
 
 @section Scripts {
-<script src="~/js/site.js"></script>
+    <script src="~/js/site.js"></script>
 }

@@ -555,7 +555,6 @@ C:/Users/ARA/Desktop/SONGTRACK+/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_acco
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Home/dummy.cshtml.g.cs
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Home/EditTrack.cshtml.g.cs
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Home/Landing.cshtml.g.cs
-/Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Home/NewRecForm.cshtml.g.cs
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Home/TrackDetails.cshtml.g.cs
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Shared/FormComment.cshtml.g.cs
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_accordionComments.cshtml.g.cs
@@ -577,3 +576,4 @@ C:/Users/ARA/Desktop/SONGTRACK+/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_acco
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.dll
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.pdb
 /Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.genruntimeconfig.cache
+/Users/armasconi/401/mine/SONGTRACK2/obj/Debug/netcoreapp3.1/Razor/Views/Home/AddRecForm.cshtml.g.cs

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;   
+using Microsoft.AspNetCore.Hosting;
 using cSharp2022.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -46,24 +46,24 @@ namespace cSharp2022
         public JsonResult RetrieveComments(int recId)
         {
             Recordis TheTrack = _context.Recs
-            .Include(c=>c.Comments)
+            .Include(c => c.Comments)
             .FirstOrDefault(t => t.RecordisId == recId);
-            
+
             Comment bubble = HttpContext.Session.GetObjectFromJson<Comment>("Thoughts");
 
-            List <Comment> coms = TheTrack.Comments;
-            if(coms == null)
+            List<Comment> coms = TheTrack.Comments;
+            if (coms == null)
             {
                 HttpContext.Session.SetObjectAsJson("Thoughts", coms);
                 return Json(coms);
             }
-            else 
+            else
             {
                 return Json(coms);
             }
 
         }
-        
+
 
         [HttpGet("track/{recId}")]
         public ViewResult TrackDetails(int recId)
@@ -73,19 +73,14 @@ namespace cSharp2022
             .ThenInclude(con => con.Gear)
             .Include(r => r.Comments)
             .Include(v => v.Aversions)
-
             .FirstOrDefault(t => t.RecordisId == recId);
-
-
-
-
             return View("TrackDetails", TheTrack); //i did not specify index since it will find it anyhow via line 24
         }
 
         [HttpGet("new-track")]
         public IActionResult DisplayNewRecForm()
         {
-            return View("NewRecForm");
+            return View("AddRecForm");
         }
 
         [HttpGet("/edit/track/add-version/{recId}")]
@@ -188,7 +183,6 @@ namespace cSharp2022
             var related = _context.Recs.Include(v => v.Aversions).SingleOrDefault(r => r.RecordisId == trackId);
             foreach (var entry in related.Aversions.ToList())
                 _context.Aversions.Remove(entry); //removes all dependent children ("Aversions" here)
-
             _context.Remove(junk);
             _context.SaveChanges();
 
@@ -197,7 +191,16 @@ namespace cSharp2022
                 System.IO.File.Delete(junk.MediaFilePath); //delete actual FILE (io)(not moving to trash!!!)
             }
             var dirPath = junk.MediaFilePath.Split(junk.fileName);
-            Directory.Delete(dirPath[0]);//clean up -delete parent directory
+            try
+            {
+                Directory.Delete(dirPath[0]);//clean up -delete parent directory
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine((e, "The actual file may be already delted"));
+                throw;
+            }
+
             return RedirectToAction("Dash");
         }
 
