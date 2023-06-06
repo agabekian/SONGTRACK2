@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fnyeotAq37azA1CN9xs5j7Ms4JczL/2pFWZKyQGD5dhmDKUyqxpckABVi73PXejP3kgZ2i0SaHSR2aspSu5c+w==",
+  "dgSpecHash": "EKteSekxJ/b0KB4wP9a8y973sMxujUjf66cb48TfFRkCUJw4hOkaU51VNvC7soFvQorCgO4xO4SZrLWjuCyPLA==",
   "success": true,
-  "projectFilePath": "/Users/armasconi/401/mine/SONGTRACK2/cSharp2022.csproj",
+  "projectFilePath": "/Users/armasconi/401/SONGTRACK2/cSharp2022.csproj",
   "expectedPackageFiles": [
     "/Users/armasconi/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.1/microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "/Users/armasconi/.nuget/packages/microsoft.bcl.hashcode/1.1.0/microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

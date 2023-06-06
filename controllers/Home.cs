@@ -205,26 +205,16 @@ namespace cSharp2022
         }
 
         [HttpGet("track/play/{trackId}")]
-        public IActionResult TrackPlay(string trackName, int trackId)
+        public IActionResult EntryOpen(string trackName, int trackId)
         {
-
-            ViewBag.Path = _context.Recs.FirstOrDefault(s => s.RecordisId == trackId);
-
-            // var filepath = @$"c:\audio\{name}";
-            // var filepath = "wwwroot/audio/2021 noodles.wav";
-            // if (System.IO.File.Exists(filepath))
-            // {
-            //     System.Media.SoundPlayer player = new System.Media.SoundPlayer(filepath);
-            //     player.Play();
-            // return PhysicalFile(filepath, "text/plain"); //for txt files
-            // return RedirectToAction("index");
+            var target = _context.Recs.FirstOrDefault(s => s.RecordisId == trackId);
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = @target.MediaFilePath;
+            psi.UseShellExecute = true;
+            Process.Start(psi);
             return RedirectToAction("TrackDetails", new { recId = trackId });
-            // }
-            // else
-            // {
-            // return NotFound("Nothing to play here");
-            // }
         }
+
 
         [HttpGet("{recId}/comment")]
         public IActionResult DisplayNewCommentForm()
