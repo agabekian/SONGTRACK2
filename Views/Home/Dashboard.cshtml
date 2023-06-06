@@ -1,8 +1,11 @@
 @model List<Recordis>
 @* <button onClick="test()">xxx</button> *@
-<a class="text-decoration-none" id="scaleContainer" href="/new-track"><i class="fa fa-plus" style="color:white"></i></a>
+<a class="text-decoration-none" id="scaleContainer" href="/new-track">
+    <i class="fa fa-plus" style="color:white"></i>
+</a>
+
 <div id="sortable_table_wrapper">
-    <!-- for list.js SEARCH to work encapsulate table into div with appropriate main id ("stw") -->
+    <!-- for list.js SEARCH to work, encapsulate table into div with appropriate main id ("stw") -->
     <table class="table" style="color:white">
         <thead>
             <tr>
@@ -31,28 +34,32 @@
                     }
                     <tr>
                         <th scope="row">@i
-                <a href="/track/play/@t.RecordisId"><i class="fas fa-file-export" aria-hidden="true"></i></a>
-
+                            @* open entry in the registered app *@
+                            <a href="/track/open/@t.RecordisId">
+                                <i class="fas fa-file-export" style="color: rgb(70, 202, 238)" aria-hidden="true"></i>
+                            </a>
                             <audio controls>
                                 <source src="@sr" type='audio/mpeg'>
-                                Your browser does not support the audio element.
+                                Your browser does not support this audio element.
                             </audio>
                         </th>
                         @{
                             i++;
                         }
                         <td>
-                            <a class="text-decoration-none text-white border border-secondary rounded title" href="/track/@t.RecordisId">@t.title</a>
+                            <a class="text-decoration-none text-white border border-secondary rounded title"
+                                href="/track/@t.RecordisId">@t.title</a>
                         </td>
                         <td class="font-fancy artist">@t.artist</td>
                         <td class="filesize" style="font-size: 0.8 rem;">@t.length</td>
                         <td class="tools">
+                            @* display associated tools/personel *@
                             @foreach (var g in t.Gears)
                             {
                                 <!-- @*<Either text or "@" toforce html output"*@ -->
                                 <a href=/gear/@g.GearId/info/ class="
-                            border border-info rounded link-warning text-decoration-none
-                            ">@g.Gear.title</a>
+                                border border-info rounded link-warning text-decoration-none
+                                ">@g.Gear.title</a>
                                 @:&nbsp;
                             }
                         </td>
@@ -80,15 +87,12 @@
                     </tr>
                 }
             }
-
         </tbody>
-
     </table>
     <input class="search" style="margin: 0 auto;display:block;border-radius:5px;text-align:center;margin-bottom:10px"
         placeholder="Filter by keyword">
-
 </div>
-<!-- <a href="/new-track">Add a Track</a> -->
+
 <script>
     var options = {
         valueNames: ['title', 'test', 'artist', 'filesize', 'tools', 'comments']

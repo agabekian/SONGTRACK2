@@ -204,7 +204,7 @@ namespace cSharp2022
             return RedirectToAction("Dash");
         }
 
-        [HttpGet("track/play/{trackId}")]
+        [HttpGet("track/open/{trackId}")]
         public IActionResult EntryOpen(string trackName, int trackId)
         {
             var target = _context.Recs.FirstOrDefault(s => s.RecordisId == trackId);
