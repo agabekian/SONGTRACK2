@@ -653,3 +653,4 @@ C:/Users/ARA/Desktop/SONGTRACK+/obj/Debug/netcoreapp3.1/Razor/Views/Shared/_acco
 /Users/armasconi/401/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.dll
 /Users/armasconi/401/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.pdb
 /Users/armasconi/401/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.genruntimeconfig.cache
+/Users/armasconi/401/SONGTRACK2/bin/Debug/netcoreapp3.1/TagLibSharp.dll

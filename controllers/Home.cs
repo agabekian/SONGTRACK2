@@ -246,19 +246,23 @@ namespace cSharp2022
         [HttpPost("add-track")]
         [RequestSizeLimit(100_000_000)]
         public async Task<IActionResult> submitTrack(Recordis FromForm, IFormFile uploadFile) //we create new entry in table based on the model 
-
         // submitTrack was named "IndexAsync" before stack
         {
+  
+            // f.Tag.Album = "New Album Title";
+            // f.Save();
             if (uploadFile != null && uploadFile.Length > 0)
             {
-
                 var folderName = FromForm.title;
                 var trackNameDir = $"wwwroot/audio/{@folderName}";
                 var fileName = Path.GetFileName(uploadFile.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), trackNameDir, fileName); //path to upload file to
                 FromForm.MediaFilePath = filePath;
                 FromForm.fileName = uploadFile.FileName;
-                if (FromForm.artist == null) { FromForm.artist = "<Armasconi>"; }
+                TagLib.File f = TagLib.File.Create(filePath);
+                if (FromForm.artist == null) FromForm.artist = "Armen";
+                if (FromForm.title == null) FromForm.title = fileName;
+                if (FromForm.desc == null) FromForm.desc = "bluh bluh bluh";
 
                 if (!Directory.Exists(trackNameDir))
                 {
