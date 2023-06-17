@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "EKteSekxJ/b0KB4wP9a8y973sMxujUjf66cb48TfFRkCUJw4hOkaU51VNvC7soFvQorCgO4xO4SZrLWjuCyPLA==",
+  "dgSpecHash": "yJHMqEDw1bHqe18NUMfmrDt6B+PAL1d230tLcMvAADoKlgURxC9xteIkz6P1g48SXkkF+t3cJduTAqYMJiO6yg==",
   "success": true,
   "projectFilePath": "/Users/armasconi/401/SONGTRACK2/cSharp2022.csproj",
   "expectedPackageFiles": [
+    "/Users/armasconi/.nuget/packages/file.typechecker/4.0.0/file.typechecker.4.0.0.nupkg.sha512",
     "/Users/armasconi/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.1/microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "/Users/armasconi/.nuget/packages/microsoft.bcl.hashcode/1.1.0/microsoft.bcl.hashcode.1.1.0.nupkg.sha512",
     "/Users/armasconi/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",

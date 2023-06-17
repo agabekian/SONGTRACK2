@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using cSharp2022.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using cSharp2022.Extensions;
-using System.Drawing;
-// Try to avoid ViewData and ViewBag . try to use strongly typed ViewModels. 
-// That makes your code clean (and the next developer who is gonna maintain your code, HAPPY)
+
 namespace cSharp2022
 {
+    
     public class HomeController : Controller
     {
         private MuhContext _context;
+        
         public HomeController(MuhContext context)
         {
             _context = context;
@@ -27,6 +25,7 @@ namespace cSharp2022
         [HttpGet("/")]
         public ViewResult Land()
         {
+            
             return View("Landing");
         }
 
@@ -63,7 +62,6 @@ namespace cSharp2022
             }
 
         }
-
 
         [HttpGet("track/{recId}")]
         public ViewResult TrackDetails(int recId)
@@ -131,6 +129,7 @@ namespace cSharp2022
             }
             return View("Dashboard");
         }
+       
         // ########################VERSION###################
         [HttpGet("version/delete/{trackId}/{vId}/")]
         public IActionResult deleteVersion(int trackId, int vId)
@@ -204,7 +203,7 @@ namespace cSharp2022
             return RedirectToAction("Dash");
         }
 
-        [HttpGet("track/open/{trackId}")]
+        [HttpGet("track/play/{trackId}")]
         public IActionResult EntryOpen(string trackName, int trackId)
         {
             var target = _context.Recs.FirstOrDefault(s => s.RecordisId == trackId);
@@ -214,7 +213,6 @@ namespace cSharp2022
             Process.Start(psi);
             return RedirectToAction("TrackDetails", new { recId = trackId });
         }
-
 
         [HttpGet("{recId}/comment")]
         public IActionResult DisplayNewCommentForm()
@@ -259,8 +257,8 @@ namespace cSharp2022
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), trackNameDir, fileName); //path to upload file to
                 FromForm.MediaFilePath = filePath;
                 FromForm.fileName = uploadFile.FileName;
-                TagLib.File f = TagLib.File.Create(filePath);
-                if (FromForm.artist == null) FromForm.artist = "Armen";
+                // TagLib.File f = TagLib.File.Create(uploadFile.FileName);
+                if (FromForm.artist == null) FromForm.artist = "Dude";
                 if (FromForm.title == null) FromForm.title = fileName;
                 if (FromForm.desc == null) FromForm.desc = "bluh bluh bluh";
 
@@ -270,8 +268,7 @@ namespace cSharp2022
                 }
 
                 // https://www.c-sharpcorner.com/article/csharp-convert-bytes-to-kb-mb-gb/
-                //convert to MB etc
-                // Load all suffixes in an array  
+
                 string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
                 string FormatSize(Int64 bytes)
                 {

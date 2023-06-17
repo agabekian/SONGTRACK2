@@ -6,6 +6,9 @@
                 <th>@Model.title <span class="anno">by&nbsp; 
                 </span><span class="invert"> @Model.artist</span></th>
                 <th>tools</th>
+                <!-- <th>
+                    <partial name="_selector" model="@Model" />
+                </th> -->
             </tr>
         </thead>
         <tbody>
@@ -14,15 +17,11 @@
                     @if (Model.MediaFilePath != null)
                     {
                         var sr = Model.MediaFilePath.Split("wwwroot");
-                        <div class="date">
-                            <p>@Model.MediaFilePath</p> @* display RELATIVE path *@
-                            <p>@Model.length</p> @* file size *@
-                            <audio controls>
-                                <source src="@sr[1]" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-
-                        </div>
+                        <p class="date">@Model.MediaFilePath @Model.length</p>
+                        <audio controls>
+                            <source src="@sr[1]" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
                     }
                     else
                     {
@@ -41,6 +40,7 @@
                                 href="/delete/@Model.RecordisId/@g.ConnectId"><i class="fa fa-window-close"></i>
                             </a>
                         </p>
+                        <!-- <text>-</text> -->
                     }
                 </td>
             </tr>
@@ -67,6 +67,7 @@
             Version</i></a>
 
         <partial name="_delete" model="@Model" />
+
     </div>
 
     <partial name="_accordionComments" model="@Model" />
