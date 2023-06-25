@@ -3,26 +3,27 @@
 
 <form asp-action="UpdateGear" asp-route-id = "@Model.GearId" asp-controller="Gearz" asp-method="post">
         <div class="form-group-row">
-            <span asp-validation-for="Make" class="col-sm-8 offset-sm-4 text-danger"></span>
+            <span asp-validation-for="Make" class="col-sm-8"></span>
             <label asp-for="Make" class="col-sm-4"></label>
             <input asp-for=" Make" class="col-sm-8 form-control">
         </div>
         <div class="form-group-row">
-            <span asp-validation-for="title"  class="col-sm-8 offset-sm-4 text-danger"></span>
+            <span asp-validation-for="title"  class="col-sm-8"></span>
             <label asp-for="title" class="col-sm-4"></label>
             <input asp-for="title" class="col-sm-8 form-control">
         </div>
         <div class="form-group-row">
-            <span asp-validation-for="desc"  class="col-sm-8 offset-sm-4 text-danger"></span>
+            <span asp-validation-for="desc"  class="col-sm-8"></span>
             <label asp-for="desc" class="col-sm-4"></label>
             <input asp-for="desc" class="col-sm-8 form-control">
         </div>
         <div class="form-group-row">
-            <span asp-validation-for="role"  class="col-sm-8 offset-sm-4 text-danger"></span>
+            <span asp-validation-for="role"  class="col-sm-8"></span>
             <label asp-for="role" class="col-sm-4"></label>
             <input asp-for="role" class="col-sm-8 form-control">
+        <hr/>
         </div>
-            <input type="submit" class="btn btn-info" style="margin-left:40%" value="Update">
+            <input type="submit" class="btn btn-info"  value="Update">
     
     </form>
         
