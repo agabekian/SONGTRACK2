@@ -11,7 +11,7 @@ namespace cSharp2022.Models
         
         [Required]
         [Display(Name = "Make")]
-        [MinLength(2, ErrorMessage = "Make name must be at least 2 characters long")]
+        [MinLength(1, ErrorMessage = "Make name must be at least 2 characters long")]
         public string Make { get; set; }
 
         [Required]

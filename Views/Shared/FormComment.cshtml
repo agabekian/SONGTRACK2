@@ -1,19 +1,19 @@
 @model cSharp2022.Models.Comment
 <!-- name of the actual model, not file name -->
-<p><a href="/">Home</a></p>
-<div class="container">
+@* <p><a href="/">Home</a></p> *@
+<div class="form-box">
     <div class="row">
         <div class=col-sm-12>
-            <p class="text-white">add new comment</p>
+            <h3>Add Comment</h3>
             <form id="myform" asp-action="postComment" asp-controller="Home" method="post">
                 <!-- //asp-action requires METHOD from the controller!! -->
                 <div class="form-group-row">
-                    <span asp-validation-for="Title" class="col-sm-8 offset-sm-4 text-danger"></span>
+                    <span asp-validation-for="Title" class="col-sm-8"></span>
                     <label asp-for="Title" class="col-sm-4"></label>
                     <input asp-for=" Title" class="col-sm-8 form-control" placeholder="new comment">
                 </div>
                 <div class="form-group-row">
-                    <span asp-validation-for="Content" class="col-sm-8 offset-sm-4 text-danger"></span>
+                    <span asp-validation-for="Content" class="col-sm-8"></span>
                     <label asp-for="Content" class="col-sm-4"></label>
                     <textarea asp-for=" Content" class="col-sm-8 form-control"></textarea>
                 </div>

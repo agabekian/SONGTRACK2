@@ -166,11 +166,11 @@ body {
   color: "blue";
 }
 
-.container {
+/* .container {
   display: flex;
   width: 1270px;
   background-color: rgb(236, 230, 222);
-}
+} */
 
 .card {
   padding: 5%;
