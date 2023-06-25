@@ -26,8 +26,7 @@
 
         <tbody class="list">
             @{
-                var sr = "";
-                int i = 1;
+                var sr = ""; int i = 1;
                 foreach (Recordis t in @Model)
                 {
                     if (t.MediaFilePath != null)
@@ -35,71 +34,60 @@
                         var cut = t.MediaFilePath.Split("wwwroot");
                         sr = cut[1];
                     }
-                    <tr>
-                        <th scope="row">@i
-                <a href="/track/play/@t.RecordisId"><i class="fas fa-file-export" aria-hidden="true"></i></a>
-                
-                @using (var fileStream = File.OpenRead(@t.MediaFilePath))
-                {
-                    var isRecognizableType = FileTypeValidator.IsTypeRecognizable(fileStream);
-
-                    if (!isRecognizableType)
-                    {
-                        Console.WriteLine("Tweird!!!!!!!!! ");
-                    }
-           
-
-                    IFileType fileType = FileTypeValidator.GetFileType(fileStream);
-                    if(fileType.Extension == "mp3")
-                    {
-                        @* Console.WriteLine("Audio file"); *@
-                            <audio controls>
-                                <source src="@sr" type='audio/mpeg'>
-                                Your browser does not support the audio element.
-                            </audio>
-                    }
-                    if(fileStream.IsImage())
-                    {
-                        <a href="/track/play/@t.RecordisId"><img src=@sr alt=@t.title height=30px></a>
-                    }
-                    Console.WriteLine("Type Name: {0}", fileType.Name);
-                    Console.WriteLine("Type Extension: {0}", fileType.Extension);
-                    Console.WriteLine("Is Image?: {0}", fileStream.IsImage());
-                    Console.WriteLine("Is Bitmap?: {0}", fileStream.Is<Bitmap>());
-                }
-
-                        </th>
-                        @{
-                            i++;
-                        }
-                        <td>
-                            <a class="text-decoration-none text-white border border-secondary rounded title" href="/track/@t.RecordisId">@t.title</a>
-                        </td>
-                        <td class="font-fancy artist">@t.artist</td>
-                        <td class="filesize" style="font-size: 0.8 rem;">@t.length</td>
-                        <td class="tools">
+                        <tr>
+                            <th scope="row">@i
+                                <a href="/track/play/@t.RecordisId">
+                                    <i class="fas fa-file-export" aria-hidden="true"></i>
+                                </a>
+                            @try
+                            {
+                                using (var fileStream = File.OpenRead(@t.MediaFilePath))
+                                {
+                                    var isRecognizableType = FileTypeValidator.IsTypeRecognizable(fileStream);
+                                    if (!isRecognizableType) Console.WriteLine("Tis a weird file - forbidden ! ");
+                                    IFileType fileType = FileTypeValidator.GetFileType(fileStream);
+                                    if (fileType.Extension == "mp3")
+                                    {
+                                        <audio controls>
+                                            <source src="@sr" type='audio/mpeg'>
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    }
+                                    if (fileStream.IsImage())
+                                    {
+                                        <a href="/track/play/@t.RecordisId"><img src=@sr alt=@t.title height=30px></a>
+                                    }
+                                    Console.WriteLine("Type Name: {0}", fileType.Name);
+                                    Console.WriteLine("Type Extension: {0}", fileType.Extension);
+                                    Console.WriteLine("Is Image?: {0}", fileStream.IsImage());
+                                    Console.WriteLine("Is Bitmap?: {0}", fileStream.Is<Bitmap>());
+                                }
+                            } 
+                            catch (DirectoryNotFoundException dirEx)
+                            {
+                            Console.WriteLine("error " + dirEx.Message);
+                            }
+                            </th>
+                                @{
+                                    i++;
+                                }
+                            <td>
+                                <a class="text-decoration-none text-white border border-secondary rounded title" href="/track/@t.RecordisId">@t.title</a>
+                            </td>
+                            <td class="font-fancy artist">@t.artist</td>
+                            <td class="filesize" style="font-size: 0.8 rem;">@t.length</td>
+                            <td class="tools">
                             @foreach (var g in t.Gears)
                             {
-                                <!-- @*<Either text or "@" toforce html output"*@ -->
-                                <a href=/gear/@g.GearId/info/ class="
-                            border border-info rounded link-warning text-decoration-none
-                            ">@g.Gear.title</a>
+                                <a href=/gear/@g.GearId/info/ class="border border-info rounded link-warning text-decoration-none">
+                                @g.Gear.title</a>
                                 @:&nbsp;
                             }
-                        </td>
-                        <td class="comments">
-                            <a>@t.Comments.Count</a>
-                        </td>
-                        <td>
-                            @if (t.Aversions != null)
-                            {
-                                @t.Aversions.Count
-                            }
-                            else
-                            {
-                                <hr />
-                            }
-                        </td>
+                            </td>
+                            <td class="comments">
+                                <a>@t.Comments.Count</a>
+                            </td>
+                            <td>@(t.Aversions != null ? t.Aversions.Count : 0)</td>
                         <td class="date">@t.CreatedAt</td>
                         <td>
                             <a class="btn btn-warning text-decoration-none" href="@t.RecordisId/comment">
@@ -111,12 +99,10 @@
                     </tr>
                 }
             }
-
         </tbody>
-
     </table>
     <input class="search" style="margin: 0 auto;display:block;border-radius:5px;text-align:center;margin-bottom:10px"
-        placeholder="Filter by keyword">
+placeholder="Filter by keyword">
 
 </div>
 <!-- <a href="/new-track">Add a Track</a> -->
@@ -132,7 +118,8 @@
 </script>
 
 
-@section Scripts {
-    <script src="~/js/site.js"></script>
-    <script src="~/js/list.js"></script>
+@section Scripts 
+    {
+            <script src="~/js/site.js"></script>
+            <script src="~/js/list.js"></script>
 }

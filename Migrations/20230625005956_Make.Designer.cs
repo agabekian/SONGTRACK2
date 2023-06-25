@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using cSharp2022.Models;
 
 namespace cSharp2022.Migrations
 {
     [DbContext(typeof(MuhContext))]
-    partial class MuhContextModelSnapshot : ModelSnapshot
+    [Migration("20230625005956_Make")]
+    partial class Make
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

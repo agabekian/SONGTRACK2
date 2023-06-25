@@ -46,8 +46,9 @@ namespace cSharp2022
             return View("AddToolForm");
         }
 
-        [HttpPost("/postnewtool/")] //if missing, razor will look for a "form route" "/new-tool-form/" like above
-        public IActionResult createTool(Gear FromForm)
+        [HttpPost("/post-new-tool/")]
+        //if missing, razor will look for a "form route" "/new-tool-form/" like above
+        public IActionResult PostNewTool(Gear FromForm)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +82,7 @@ namespace cSharp2022
             System.IO.File.Delete(imageToDelete.Path); //delete file from wwwroot altogether
             _context.Remove(imageToDelete); //del refs
             _context.SaveChanges();
- 
+
             return RedirectToAction("Tools");
         }
 
@@ -96,7 +97,7 @@ namespace cSharp2022
         }
 
         [HttpPost("/gear/{gId}/add-photos/")]
-        public async Task<IActionResult> IndexAsync(Image image, IFormFile uploadFile, int gId)
+        public async Task<IActionResult> PostImage(Image image, IFormFile uploadFile, int gId)
         {
             if (uploadFile != null && uploadFile.Length > 0)
             {
@@ -121,9 +122,9 @@ namespace cSharp2022
             }
             return GearInfo(gId);
         }
-        
+
         [HttpPost("update/{id}")]
-        public IActionResult Update(int id, Gear FromForm)
+        public IActionResult UpdateGear(int id, Gear FromForm)
         {
             if (ModelState.IsValid)
             {

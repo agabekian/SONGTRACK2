@@ -9,7 +9,7 @@
 <table class="table" style="color:white">
     <thead>
         <tr>
-            <th class="bg-secondary date sort">TAG</th>
+            <th class="bg-secondary date sort">NAME</th>
             <th class="bg-secondary date sort">NOTES</th>
             <th class="bg-secondary date sort">ROLE</th>
             <th class="bg-secondary date sort"><i class="fa fa-wrench"></i></th>
@@ -19,15 +19,20 @@
         @foreach (var tool in @Model)
         {
             <tr>
-                <td><a class="link-warning text-decoration-none" href="/gear/@tool.GearId/info/"><b>@tool.title</b></a>
+                <td>
+                    <a class="link-warning text-decoration-none" href="/gear/@tool.GearId/info/">
+                        <b>@tool.Make.ToLower()</b>
+                        <b>@tool.title</b>
+                    </a>
                 </td>
                 <td>@tool.desc</td>
                 <td>@tool.role</td>
                 <!-- <a onClick = "return confirm('Sure to delete @tool.title ?')" href="/tools/@tool.GearId/del"><i class="fa fa-trash" aria-hidden="true"></i></a> -->
                 @* ############## edit #################*@
                 <td>
-                    <a class="btn btn-info text-decoration-none" href="/gear/@tool.GearId/"><i style="color:green"
-                            class="fa fa-edit" aria-hidden="true"></i></a>
+                    <a class="btn btn-info text-decoration-none" href="/gear/@tool.GearId/">
+                        <i style="color:green" class="fa fa-edit" aria-hidden="true"></i>
+                    </a>
                     <span id="confirmDeleteSpan_@tool.GearId" style="display:none">
                         <span style="color:red">DELETE</span> the tool @tool.title?
                         <a href="/tools/@tool.GearId/del" class="btn btn-danger">Yes</a>
@@ -45,7 +50,7 @@
 </table>
     </div>
 
-<!-- <button onClick="test()">TEST Connections</button> -->
+@* dont comment out - delete sctipt *@
 @section Scripts {
     <script src="~/js/site.js"></script>
 }

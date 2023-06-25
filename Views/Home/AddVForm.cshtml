@@ -5,7 +5,7 @@
     <div class="row">
         <h3>Add an entry</h3>
         <div class=col-sm-12>
-            <form asp-action="submitAversion" asp-route-id="@ViewBag.RecordisId" asp-controller="Home" method="post" enctype="multipart/form-data">
+            <form asp-action="SubmitAversion" asp-route-id="@ViewBag.RecordisId" asp-controller="Home" method="post" enctype="multipart/form-data">
                 <div style="visibility:hidden" class="form-group-row">
                     <span asp-validation-for="Length" class="col-sm-8 offset-sm-4 text-danger"></span>
                     <label asp-for="Length" class="col-sm-4"></label>

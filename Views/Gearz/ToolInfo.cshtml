@@ -1,24 +1,49 @@
-<h5 class="card-title">@Model.title</h5><a class="text-decoration-none" href="/gear/@Model.GearId/">edit</a>
-<p class="card-text">@Model.desc</p>
-
-<p>used on @Model.Recs.Count tracks out of @ViewBag.ToolStats.Count</p>
-<div class="pretty-box">
-    <p>used on following:</p>
-    @foreach (var x in @Model.Recs)
-    {
-        <p class="outline">@x.Recordis.title</p>
-    }
+<h4>@Model.Make.ToLower()  @Model.title</h4>
+<div style="display:flex">
+    <p class="card-text">@Model.desc</p>
+     <p class="card-text">&nbsp @Model.role</p>
+     <a class="text-decoration-none" href="/gear/@Model.GearId/"> &nbsp edit</a>
 </div>
 
-<div class="row">
+<div class="pretty-box">
+    <h4>tool stats:</h4>
+     @{
+        decimal usedOn = Model.Recs.Count;
+        decimal total = ViewBag.ToolStats.Count;
+        int per = Convert.ToInt32(usedOn/total*100);
+    }
+<p>
+    @(
+    Model.Recs.Count > 0
+    ? $"used on {Model.Recs.Count} / {ViewBag.ToolStats.Count} projects ({per}%)"
+    : "no records yet"
+    )
+</p>
+<label for="pickList"></label>
+    <form>
+        <select id="pickList"
+        style="width:50%"
+        class="form-select form-select-sm" 
+        aria-label=".form-select-sm" 
+        >
+                <option selected> @(Model.Recs.Count > 0 ? $"The projects with {Model.title} in order added" : "none")</option>
+                @foreach (var x in @Model.Recs)
+                {
+                    <option value="@x.Recordis.RecordisId">@x.Recordis.title </option>
+                }
+        </select>
+    </form>
+</div>
+
+<div style="padding-top:25px">
     @foreach (var x in @Model.Images)
     {
-        string[] cut = (x.Image.Path).Split("images");
-        System.Console.WriteLine(x.Image);
-        <div class="card" style="width: 18rem;">
-            <img src=~/images/@cut[1] class="card-img-top" alt="tool photo">
-            <!-- image path must be truncated in order for the image to be displayed from allowed level -->
-            <div class="card-body">Caption</div>
+    string[] cut = (x.Image.Path).Split("images");
+    @* System.Console.WriteLine(x.Image); *@
+        <div class="card" style="width: 20rem;">
+            <img src=~/images/@cut[1] class="card-img-top" alt="tool-photo">
+        @* image path must be truncated in order for the image to be displayed from allowed level *@
+            <div class="card-body">@x.Image.Id</div>
             <a class="link-light text-decoration-none" href="/gear/@x.Image.Id/delete-photo/">
                 <button class="btn btn-warning">x</button>
             </a>
@@ -27,6 +52,14 @@
 </div>
 
 <a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
-    <button class="btn btn-success">+photos</button>
+    <button class="btn btn-success">+ &nbsp photo</button>
 </a>
+<script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(function () {        
+        $('#pickList').change(function () {
+            window.location.href = "/track/" + $(this).val();
+        })
+    });
+</script>
 

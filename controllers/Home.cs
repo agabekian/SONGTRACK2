@@ -15,7 +15,7 @@ namespace cSharp2022
     
     public class HomeController : Controller
     {
-        private MuhContext _context;
+        private readonly MuhContext _context;
         
         public HomeController(MuhContext context)
         {
@@ -89,7 +89,7 @@ namespace cSharp2022
         }
 
         [HttpPost("/edit/track/post-version/{recId}")]
-        public async Task<IActionResult> submitAversion(Aversion FromForm, IFormFile uploadFile, int recId)
+        public async Task<IActionResult> SubmitAversion(Aversion FromForm, IFormFile uploadFile, int recId)
         {
             var folderName = _context.Recs.Where(t => t.RecordisId == recId).First();
             if (uploadFile != null && uploadFile.Length > 0)
@@ -113,7 +113,7 @@ namespace cSharp2022
                     decimal number = (decimal)bytes;
                     while (Math.Round(number / 1024) >= 1)
                     {
-                        number = number / 1024;
+                        number/=1024;
                         counter++;
                     }
                     return string.Format("{0:n1}{1}", number, suffixes[counter]);
@@ -125,14 +125,14 @@ namespace cSharp2022
                 FromForm.Title = fileName;
                 _context.Add(FromForm);
                 _context.SaveChanges();
-                return RedirectToAction("TrackDetails", new { recId = recId });
+                return RedirectToAction("TrackDetails", new { recId });
             }
             return View("Dashboard");
         }
        
         // ########################VERSION###################
         [HttpGet("version/delete/{trackId}/{vId}/")]
-        public IActionResult deleteVersion(int trackId, int vId)
+        public IActionResult DeleteVersion(int trackId, int vId)
         {
             var target = _context.Aversions
             .Where(t => t.AversionId == vId)
@@ -181,7 +181,7 @@ namespace cSharp2022
 
             var related = _context.Recs.Include(v => v.Aversions).SingleOrDefault(r => r.RecordisId == trackId);
             foreach (var entry in related.Aversions.ToList())
-                _context.Aversions.Remove(entry); //removes all dependent children ("Aversions" here)
+            _context.Aversions.Remove(entry); //removes all dependent children ("Aversions" here)
             _context.Remove(junk);
             _context.SaveChanges();
 
@@ -190,14 +190,16 @@ namespace cSharp2022
                 System.IO.File.Delete(junk.MediaFilePath); //delete actual FILE (io)(not moving to trash!!!)
             }
             var dirPath = junk.MediaFilePath.Split(junk.fileName);
+    
             try
             {
+                Console.WriteLine(dirPath[0]);
                 Directory.Delete(dirPath[0]);//clean up -delete parent directory
             }
             catch (Exception e)
             {
-                System.Console.WriteLine((e, "The actual file may be already delted"));
-                throw;
+                System.Console.WriteLine((e, "The actual file may be already deleted"));
+                // throw;
             }
 
             return RedirectToAction("Dash");
@@ -207,9 +209,11 @@ namespace cSharp2022
         public IActionResult EntryOpen(string trackName, int trackId)
         {
             var target = _context.Recs.FirstOrDefault(s => s.RecordisId == trackId);
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = @target.MediaFilePath;
-            psi.UseShellExecute = true;
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = @target.MediaFilePath,
+                UseShellExecute = true
+            };
             Process.Start(psi);
             return RedirectToAction("TrackDetails", new { recId = trackId });
         }
@@ -222,7 +226,7 @@ namespace cSharp2022
         }
 
         [HttpPost("{recId}/post")] //if missing, razor will look for a "form route" "/new-tool-form/" like above
-        public IActionResult postComment(Comment FromForm, int recId) //we create new entry in table based on the model 
+        public IActionResult PostComment(Comment FromForm, int recId) //we create new entry in table based on the model 
         // create1 is used in the form asp-action
         {
             if (ModelState.IsValid)
@@ -231,7 +235,7 @@ namespace cSharp2022
                 _context.Add(FromForm);
                 _context.SaveChanges();
                 ModelState.Clear();
-                return RedirectToAction("TrackDetails", new { recId = recId });
+                return RedirectToAction("TrackDetails", new { recId });
                 //using overload (Home) so it redirects OK
                 // https://stackoverflow.com/questions/7892094/how-to-redirect-to-index-from-another-controller
             }
@@ -243,7 +247,7 @@ namespace cSharp2022
 
         [HttpPost("add-track")]
         [RequestSizeLimit(100_000_000)]
-        public async Task<IActionResult> submitTrack(Recordis FromForm, IFormFile uploadFile) //we create new entry in table based on the model 
+        public async Task<IActionResult> SubmitTrack(Recordis FromForm, IFormFile uploadFile) //we create new entry in table based on the model 
         // submitTrack was named "IndexAsync" before stack
         {
   
@@ -251,24 +255,24 @@ namespace cSharp2022
             // f.Save();
             if (uploadFile != null && uploadFile.Length > 0)
             {
-                var folderName = FromForm.title;
-                var trackNameDir = $"wwwroot/audio/{@folderName}";
                 var fileName = Path.GetFileName(uploadFile.FileName);
+                FromForm.title ??= fileName;
+                var folderName = FromForm.title; //to create  folder named after track
+                var trackNameDir = $"wwwroot/audio/{@folderName}"; //to be used as a wrapper
+                
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), trackNameDir, fileName); //path to upload file to
                 FromForm.MediaFilePath = filePath;
                 FromForm.fileName = uploadFile.FileName;
                 // TagLib.File f = TagLib.File.Create(uploadFile.FileName);
-                if (FromForm.artist == null) FromForm.artist = "Dude";
-                if (FromForm.title == null) FromForm.title = fileName;
-                if (FromForm.desc == null) FromForm.desc = "bluh bluh bluh";
-
+                FromForm.artist ??= "Dude";
+                // if (FromForm.title == null) FromForm.title = fileName;
+               
+                FromForm.desc ??= "bluh bluh bluh";
                 if (!Directory.Exists(trackNameDir))
                 {
                     Directory.CreateDirectory(trackNameDir);
                 }
-
                 // https://www.c-sharpcorner.com/article/csharp-convert-bytes-to-kb-mb-gb/
-
                 string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
                 string FormatSize(Int64 bytes)
                 {
@@ -276,7 +280,7 @@ namespace cSharp2022
                     decimal number = (decimal)bytes;
                     while (Math.Round(number / 1024) >= 1)
                     {
-                        number = number / 1024;
+                        number /= 1024;
                         counter++;
                     }
                     return string.Format("{0:n1}{1}", number, suffixes[counter]);
@@ -312,39 +316,33 @@ namespace cSharp2022
             FormWrapper TheRec = new FormWrapper(); //Dont forget to give it some data (below) 3/5/22
             TheRec.RecForm = _context.Recs.FirstOrDefault(i => i.RecordisId == recId);
 
-            ViewBag.AllGear = _context.Gears.ToList(); //ned it!
+            ViewBag.AllGear = _context.Gears.ToList();
             ViewBag.theSong = _context.Recs.FirstOrDefault(p => p.RecordisId == recId);
             ViewBag.UsedConnects = _context.Connects;
-
-
             return View("EditTrack", TheRec);
         }
 
         [HttpPost("update/rec/{id}")]
         public IActionResult UpdateRec(int id, Recordis FromForm)
         {
-            ;
-
             if (ModelState.IsValid)
             {
                 var x = _context.Recs.Where(t => t.RecordisId == id).AsNoTracking().FirstOrDefault();
                 FromForm.RecordisId = id;
                 string fileName = FromForm.fileName;
-
                 string[] cut = FromForm.MediaFilePath.Split("audio");
                 string[] f = cut[1].Split(@fileName);
                 string fN = FromForm.title;
-                string updatedPath = FromForm.MediaFilePath.Replace(f[0], "/" + fN + "/"); //update path for playback
-                FromForm.MediaFilePath = updatedPath;
+                // string updatedPath = FromForm.MediaFilePath.Replace(f[0], "/" + fN + "/"); //update path for playback
+                // FromForm.MediaFilePath = updatedPath;
                 _context.Entry(FromForm).Property("CreatedAt").IsModified = false;
                 _context.Update(FromForm);
                 _context.SaveChanges();
                 // var path = $"wwwroot\\audio{f[0]}";
-
-                if (x.title != FromForm.title)
-                {
-                    Directory.Move(@Url.Content($"wwwroot//audio{f[0]}"), @Url.Content($"wwwroot\\audio\\{FromForm.title}"));
-                }
+                // if (x.title != FromForm.title)
+                // {
+                //     Directory.Move(@Url.Content($"wwwroot//audio{f[0]}"), @Url.Content($"wwwroot\\audio\\{FromForm.title}"));
+                // }
                 return RedirectToAction("TrackDetails", new { recId = id });
             }
             else
