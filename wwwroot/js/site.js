@@ -26,7 +26,7 @@ $('.head').click(function(){
   });
   // icon from Font Awesome was used in accordion-1
 
-  function myFunction() {
+  function displayJS() {
     var x = document.getElementById("myDIV");
     if (x.style.display === "none") {
       x.style.display = "block";

@@ -1,7 +1,7 @@
 @model FormWrapper
 <div class="form-box">
     <div class="row">
-        <h3 class="text-warning">e d i t </h3>
+        <h3 class="text-warning">Edit Entry</h3>
         <div class=col-sm-12>
             <form asp-action="UpdateRec" asp-route-id="@Model.RecForm.RecordisId" asp-controller="Home"
                 asp-method="post">
@@ -11,30 +11,3 @@
         </div>
     </div>
 </div>
-<!-- <div>
-            <span asp-validation-for="title"></span>
-            <label asp-for="title"></label>
-            <input asp-for="title">
-        </div>
-        <div>
-            <span asp-validation-for="artist"></span>
-            <label asp-for="artist"></label>
-            <input asp-for="artist">
-        </div>
-        <div>
-            <span asp-validation-for="length"></span>
-            <label asp-for="length"></label>
-            <input asp-for="length">
-        </div>
-        
-        <select asp-for="RecordisId">
-            @foreach(var tool in ViewBag.AllGear)
-            {
-                <option value="@tool.GearId">@tool.title</option>
-            }
-        </select>
-
-            <input type="submit" value="Update">
-        </div> -->
-
-<!-- </form> -->

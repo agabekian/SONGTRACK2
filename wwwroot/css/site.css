@@ -60,13 +60,12 @@ table {
   border-radius: 1px;
   text-align: center;
   padding: 8px;
-  display: block;
-  margin: 0 auto;
+  margin: 10px 0 10px 0;
 }
 
-.outline {
-  background-color: rgb(37, 97, 37);
-  border: 1px solid rgb(233, 227, 227);
+.comment-box {
+  border-top: 1px solid rgb(233, 227, 227);
+
 }
 
 .cool {
@@ -107,7 +106,7 @@ a {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
@@ -172,8 +171,10 @@ body {
   background-color: rgb(236, 230, 222);
 } */
 
-.card {
+.image-card {
   padding: 5%;
+  min-width: 10%;
+  /* border: 2px solid gray; */
 }
 
 .inverse {
@@ -191,13 +192,14 @@ body {
 }
 
 /* accordion-1 */
-#accordion-1 {
+#accordion-1 .head:hover .arrow,{
   /* position: relative; */
   box-shadow: 0px 1px 7px #dbdbdb;
 }
 
 #accordion-1 .head {
-  background-color: #494848;
+  margin:15px 0 15px 0;
+  background-color: #7b7777;
   color: #dfd9e6;
   padding: 20px 30px;
   cursor: pointer;
@@ -221,7 +223,8 @@ body {
 
 #accordion-1 .head:hover,
 #accordion-1 .active {
-  background-color: rgb(134, 70, 17);
+  background-color: rgb(38, 36, 35);
+  color: #dbdbdb;
 }
 
 #accordion-1 .arrow-animate {

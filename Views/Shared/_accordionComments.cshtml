@@ -1,15 +1,14 @@
 @model Recordis
-
+        @* jquery*@
 <div class="accordion" id="accordion-1">
     <div class="head">
-        <div id="xxx">jquery-data</div>
+
         <h5>comments (@Model.Comments.Count)</h5>
-        <i class="fa fa-angle-down plus"></i>
+        <i class="fa fa-angle-down arrow"></i>
+
     </div>
 
     <div class="content collapse">
-        <!-- <div  id="xxx"></div> -->
-
         <script>
             var id = "@Model.RecordisId"; //passing razor var into js , notice the QUOTES
             $(document).ready(function () {
@@ -27,27 +26,24 @@
             });
         </script>
 
-        <button class="btn btn-info" onclick="myFunction()">POST</button>
-
         <div id="Commentlist" class="pretty-box">
             @{
                 var x = @Model.RecordisId;
-                Comment z = new Comment();
+                Comment comment = new Comment();
             }
             @foreach (var com in @Model.Comments)
             {
-                <div class="outline">
-                    <span class="date"><em>@com.CreatedAt</em></span>
+                <div class="comment-box">
+                    <em>@com.CreatedAt</em>
                     <div>
                         @com.Title
-                        @com.Content
+                        @com.Content 
+                        <a style="margin-left:20px" href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
                     </div>
-                    <a href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
                 </div>
-                <!-- z = com; -->
             }
             @section Scripts
-                {
+            {
                 <script>
                     $("#clicklink").click(function () {
                         $.ajax({
@@ -61,8 +57,9 @@
                 </script>
             }
         </div>
+        <button class="btn btn-outline-info" onclick="displayJS()">add new comment</button>
     </div>
     <div id="myDIV" style="display:none">
-        <partial name="FormComment" model="@z">;
+        <partial name="FormComment" model="@comment">;
     </div>
 </div>

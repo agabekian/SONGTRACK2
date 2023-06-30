@@ -22,7 +22,7 @@ namespace cSharp2022
         [HttpGet("/gear/{gearId}/info/")]
         public IActionResult GearInfo(int gearId)
         {
-            Gear theGear = _context.Gears
+            Gear id = _context.Gears
             .Include(g => g.Recs)
             .ThenInclude(con => con.Gear)
             .Include(x => x.Images)
@@ -30,7 +30,7 @@ namespace cSharp2022
             .FirstOrDefault(g => g.GearId == gearId);
 
             ViewBag.ToolStats = _context.Recs.ToList();
-            return View("ToolInfo", theGear);
+            return View("ToolInfo", id);
         }
 
         [HttpGet("/tools/")]
@@ -120,7 +120,7 @@ namespace cSharp2022
                     await uploadFile.CopyToAsync(fileSrteam);
                 }
             }
-            return GearInfo(gId);
+            return RedirectToAction("GearInfo", new { gearId = gId });
         }
 
         [HttpPost("update/{id}")]

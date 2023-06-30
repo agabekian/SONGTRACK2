@@ -17,15 +17,15 @@
                     @if (Model.MediaFilePath != null)
                     {
                         var sr = Model.MediaFilePath.Split("wwwroot");
-                        <p class="date">@Model.MediaFilePath @Model.length</p>
-                        <audio controls>
-                            <source src="@sr[1]" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
+                            <p class="date">@Model.MediaFilePath @Model.length</p>
+                            <audio controls>
+                                <source src="@sr[1]" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
                     }
                     else
                     {
-                        <p>no path found</p>
+                            <p>no path found</p>
                     }
                 </th>
                 <td>
@@ -66,12 +66,11 @@
             Version</i></a>
 
         <partial name="_delete" model="@Model" />
-
     </div>
 
     <partial name="_accordionComments" model="@Model" />
 
-    <div id="accordion-1">
+    <div class =accordion id="accordion-1">
         <div class="head">
             <h5>versions (@Model.Aversions.Count)</h5>
             <i class="fa fa-angle-down arrow"></i>
@@ -83,22 +82,22 @@
                 {
                     if (v.MediaFilePath != null)
                     {
-                        var trimPath = v.MediaFilePath.Split("wwwroot");
-                        <p>@trimPath[1] @Model.length</p>
-                        <div class="vers">
-                            <div>
-                                @v.Title
-                                @v.Length
-                            </div>
-                            <div>
-                                <audio controls>
-                                    <source src="@trimPath[1]" type='audio/mpeg'>
-                                    Your browser does not support the audio element.
-                                </audio>
-                            </div>
-                            <a style="color:aliceblue" href="/version/delete/@Model.RecordisId/@v.AversionId"><i
-                                    class="fa fa-close"></i></a>
+                    var trimPath = v.MediaFilePath.Split("wwwroot");
+                    <p>@trimPath[1] @Model.length</p>
+                    <div class="vers">
+                        <div>
+                            @v.Title
+                            @v.Length
                         </div>
+                        <div>
+                            <audio controls>
+                                <source src="@trimPath[1]" type='audio/mpeg'>
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <a style="color:aliceblue" href="/version/delete/@Model.RecordisId/@v.AversionId"><i
+                                class="fa fa-close"></i></a>
+                    </div>
                     }
                 }
             }
@@ -108,11 +107,11 @@
             }
         </div>
     </div>
-@* <div>
+    @* <div>
     <a href="/convert/@Model.fileName">convert</a> //to implement
 </div> *@
 
 
-@section Scripts {
-    <script src="~/js/site.js"></script>
+    @section Scripts {
+        <script src="~/js/site.js"></script>
 }

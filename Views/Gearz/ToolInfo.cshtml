@@ -1,9 +1,9 @@
 <h4>@Model.Make.ToLower()  @Model.title</h4>
 <div style="display:flex">
     <p class="card-text">@Model.desc</p>
-     <p class="card-text">&nbsp @Model.role</p>
-     <a class="text-decoration-none" href="/gear/@Model.GearId/"> &nbsp edit</a>
+    <p class="card-text">&nbsp @Model.role</p>
 </div>
+<a class="text-decoration-none" href="/gear/@Model.GearId/"><button class="btn btn-outline-info">edit</button></a>
 
 <div class="pretty-box">
     <h4>tool stats:</h4>
@@ -19,6 +19,7 @@
     : "no records yet"
     )
 </p>
+
 <label for="pickList"></label>
     <form>
         <select id="pickList"
@@ -33,27 +34,26 @@
                 }
         </select>
     </form>
+    
 </div>
-
-<div style="padding-top:25px">
+    <a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
+        <button class="btn btn-outline-info">photo</button>
+    </a>
+<div class="image-card"> 
+    @* display associated images *@
     @foreach (var x in @Model.Images)
     {
-    string[] cut = (x.Image.Path).Split("images");
-    @* System.Console.WriteLine(x.Image); *@
-        <div class="card" style="width: 20rem;">
+    string[] cut = (x.Image.Path).Split("images"); 
+    //image path must be truncated in order for the image to be displayed from _allowed level_
             <img src=~/images/@cut[1] class="card-img-top" alt="tool-photo">
-        @* image path must be truncated in order for the image to be displayed from allowed level *@
-            <div class="card-body">@x.Image.Id</div>
+                @x.Image.Id
             <a class="link-light text-decoration-none" href="/gear/@x.Image.Id/delete-photo/">
                 <button class="btn btn-warning">x</button>
             </a>
-        </div>
     }
 </div>
 
-<a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
-    <button class="btn btn-success">+ &nbsp photo</button>
-</a>
+
 <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
 <script>
     $(function () {        
