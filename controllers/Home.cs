@@ -333,9 +333,10 @@ namespace cSharp2022
                 string[] cut = FromForm.MediaFilePath.Split("audio");
                 string[] f = cut[1].Split(@fileName);
                 string fN = FromForm.title;
+                FromForm.CreatedAt = x.CreatedAt; //for now
                 // string updatedPath = FromForm.MediaFilePath.Replace(f[0], "/" + fN + "/"); //update path for playback
                 // FromForm.MediaFilePath = updatedPath;
-                _context.Entry(FromForm).Property("CreatedAt").IsModified = false;
+                System.Console.WriteLine(_context.Entry(FromForm).Property("CreatedAt").IsModified);//already false
                 _context.Update(FromForm);
                 _context.SaveChanges();
                 // var path = $"wwwroot\\audio{f[0]}";

@@ -35,7 +35,7 @@ namespace cSharp2022.Models
         public List<Connect> Gears { get; set; }//nav props
         public List<Comment> Comments { get; set; }
         public List<Aversion> Aversions { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }
