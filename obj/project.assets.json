@@ -932,11 +932,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/armasconi/401/SONGTRACK2/cSharp2022.csproj",
+      "projectUniqueName": "/Users/armasconi/CSHARP2024/SONGTRACK2/cSharp2022.csproj",
       "projectName": "cSharp2022",
-      "projectPath": "/Users/armasconi/401/SONGTRACK2/cSharp2022.csproj",
+      "projectPath": "/Users/armasconi/CSHARP2024/SONGTRACK2/cSharp2022.csproj",
       "packagesPath": "/Users/armasconi/.nuget/packages/",
-      "outputPath": "/Users/armasconi/401/SONGTRACK2/obj/",
+      "outputPath": "/Users/armasconi/CSHARP2024/SONGTRACK2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/armasconi/.nuget/NuGet/NuGet.Config"

@@ -9,8 +9,8 @@ using cSharp2022.Models;
 namespace cSharp2022.Migrations
 {
     [DbContext(typeof(MuhContext))]
-    [Migration("20230625005956_Make")]
-    partial class Make
+    [Migration("20241029122445_CreateGearsTable")]
+    partial class CreateGearsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
