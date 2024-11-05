@@ -10,7 +10,6 @@
 </a>
 
 <div id="sortable_table_wrapper">
-    <!-- for list.js SEARCH to work encapsulate table into div with appropriate main id ("stw") -->
     <table class="table" style="color:white">
         <thead>
         <tr>
@@ -28,14 +27,15 @@
 
         <tbody class="list">
         @{
-            var sr = "";
             int i = 1;
             foreach (Recordis t in @Model)
             {
+                string sr = null;
+
                 if (t.MediaFilePath != null)
                 {
                     var cut = t.MediaFilePath.Split("wwwroot");
-                    sr = cut[1];
+                    sr = cut.Length > 1 ? cut[1] : null; // Ensure there is a valid split
                 }
 
                 <tr>
@@ -46,23 +46,31 @@
                         </a>
                         @try
                         {
-                            using (var fileStream = File.OpenRead(@t.MediaFilePath))
+                            using (var fileStream = File.OpenRead(t.MediaFilePath))
                             {
                                 var isRecognizableType = FileTypeValidator.IsTypeRecognizable(fileStream);
-                                if (!isRecognizableType) Console.WriteLine("Tis a weird file - forbidden ! ");
+
+                                if (!isRecognizableType)
+                                {
+                                    Console.WriteLine("Tis a weird file - forbidden!");
+                                }
+
                                 IFileType fileType = FileTypeValidator.GetFileType(fileStream);
+
+                                // Check for MP3
                                 if (fileType.Extension == "mp3")
                                 {
                                     <audio controls>
-                                        <source src="@sr" type='audio/mpeg'>
+                                        <source src="@Url.Content(sr)" type='audio/mpeg'>
                                         Your browser does not support the audio element.
                                     </audio>
                                 }
 
+                                // Check if the file is an image
                                 if (fileStream.IsImage())
                                 {
                                     <a href="/track/play/@t.RecordisId">
-                                        <img src=@sr alt=@t.title height=30px>
+                                        <img src="@Url.Content(sr)" alt="@t.title" height="30" onerror="this.src='/images/default-image.png';">
                                     </a>
                                 }
 
@@ -80,61 +88,56 @@
                             </div>
                         }
                     </th>
-                    @{
-                        i++;
-                    }
                     <td>
                         <a class="text-decoration-none text-white border border-secondary rounded title" href="/track/@t.RecordisId">@t.title</a>
                     </td>
                     <td class="font-fancy artist">@t.artist</td>
                     <td class="filesize" style="font-size: 0.8rem;">@t.length</td>
-                    <td class="tools">
+                    <td class="tools"> @* displays tools used *@
                         @foreach (var g in t.Gears)
                         {
-                            <a href="/gear/@g.GearId/info/" class="border border-info rounded link-warning text-decoration-none">
+                            <a href="/gear/@g.GearId/info/" 
+                               class="border border-info rounded link-warning text-decoration-none">
                                 @g.Gear.title
-                            </a> 
-                            @((g != t.Gears.Last()) ? "&nbsp;" : "") //don't add empty space if last
+                            </a>
+                            @if (g != t.Gears.Last())
+                            {
+                                @Html.Raw("&nbsp;") // Render a non-breaking space
+                            }
                         }
                     </td>
-                    <td class="comments">
-                        <a>@t.Comments.Count</a>
-                    </td>
+
+                    <td class="comments"><a> @t.Comments.Count </a></td>
                     <td>@(t.Aversions?.Count ?? 0)</td>
                     <td class="date">@t.CreatedAt</td>
-
                     <td>
                         <a class="btn btn-warning text-decoration-none" href="@t.RecordisId/comment">
                             <i style="color:white" class="fa fa-comment" aria-hidden="true"></i>
                         </a>
                         <a href="/edit/track/@t.RecordisId" class="btn btn-success text-decoration-none">
-                            <i
-                                style="color: white" class="fa fa-edit">
-                            </i>
+                            <i style="color: white" class="fa fa-edit"></i>
                         </a>
                         <partial name="_delete" model="@t"/>
                     </td>
                 </tr>
+                i++;
             }
         }
         </tbody>
     </table>
-    <input class="search" style="display:block;border-radius:5px;text-align:center;margin: 0 auto 10px;"
-           placeholder="Filter by keyword">
-
+    <input class="search" style="display:block; border-radius:5px; text-align:center; margin: 0 auto 10px;" placeholder="Filter by keyword">
 </div>
-<!-- <a href="/new-track">Add a Track</a> -->
-<script>
-    var options = {
-        valueNames: ['title', 'test', 'artist', 'filesize', 'tools', 'comments']
-        // get id named correctly , th - add "data-sort" attrib and class name(as in valNames) also matching class for td
-    };
-    var sortable_table_wrapper = new List('sortable_table_wrapper', options);
-    sortable_table_wrapper.sort("title", {
-        order: "title"
-    });
-</script>
 
+<script>
+    
+    const options = 
+    {
+        valueNames: ['title', 'test', 'artist', 'filesize', 'tools', 'comments']
+    };
+    const sortable_table_wrapper = new List('sortable_table_wrapper', options);
+    sortable_table_wrapper.sort("title", { order: "title" });
+
+</script>
 
 @section Scripts
 {

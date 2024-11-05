@@ -1,25 +1,26 @@
 @model Recordis
-        @* jquery*@
+
 <div class="accordion" id="accordion-1">
     <div class="head">
-
         <h5>comments (@Model.Comments.Count)</h5>
+        @* <i class="fa fa-angle-down arrow" /> funny styling animation*@
         <i class="fa fa-angle-down arrow"></i>
 
     </div>
 
     <div class="content collapse">
         <script>
-            var id = "@Model.RecordisId"; //passing razor var into js , notice the QUOTES
+            const id = "@Model.RecordisId"; //passing razor var into js , notice the QUOTES
             $(document).ready(function () {
+            
                 function populatePage(data) {
                     $.each(data, function (key, value) {
-                        // alert(key + ":" + value.title);
                         $("#xxx").html(value.content)
                     })
                 }
-                var url = "/track/comments/" + id
-                $.get(url, data => { //ajax call 
+                
+                const url = "/track/comments/" + id;
+                $.get(url, data => {  //ajax call 
                     console.log(data)
                     populatePage(data);
                 })
@@ -37,11 +38,14 @@
                     <em>@com.CreatedAt</em>
                     <div>
                         @com.Title
-                        @com.Content 
-                        <a style="margin-left:20px" href="/tool/delete/@x/@com.CommentId/"><i class="fas fa-window-close"></i></a>
+                        @com.Content
+                        <a style="margin-left:20px" href="/tool/delete/@x/@com.CommentId/">
+                            <i class="fas fa-window-close"></i>
+                        </a>
                     </div>
                 </div>
             }
+
             @section Scripts
             {
                 <script>
@@ -56,6 +60,7 @@
                     });
                 </script>
             }
+
         </div>
         <button class="btn btn-outline-info" onclick="displayJS()">add new comment</button>
     </div>

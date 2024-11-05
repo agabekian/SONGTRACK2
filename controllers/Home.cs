@@ -12,11 +12,10 @@ using cSharp2022.Extensions;
 
 namespace cSharp2022
 {
-    
     public class HomeController : Controller
     {
         private readonly MuhContext _context;
-        
+
         public HomeController(MuhContext context)
         {
             _context = context;
@@ -25,7 +24,6 @@ namespace cSharp2022
         [HttpGet("/")]
         public ViewResult Land()
         {
-            
             return View("Landing");
         }
 
@@ -33,46 +31,52 @@ namespace cSharp2022
         public ViewResult Dash()
         {
             List<Recordis> AllRecs = _context.Recs
-            .Include(c => c.Comments)
-            .Include(v => v.Aversions)
-            .Include(g => g.Gears)
-            .ThenInclude(con => con.Gear)
-            .ToList();
+                .Include(c => c.Comments)
+                .Include(v => v.Aversions)
+                .Include(g => g.Gears)
+                .ThenInclude(con => con.Gear)
+                .ToList();
             return View("Dashboard", AllRecs); //i did not specify index since it will find it anyhow via line 24
         }
 
         [HttpGet("/track/comments/{recId}")]
         public JsonResult RetrieveComments(int recId)
         {
-            Recordis TheTrack = _context.Recs
-            .Include(c => c.Comments)
-            .FirstOrDefault(t => t.RecordisId == recId);
+            // Retrieve the track with its comments, if it exists
+            var theTrack = _context.Recs
+                .Include(c => c.Comments)
+                .FirstOrDefault(t => t.RecordisId == recId);
 
-            Comment bubble = HttpContext.Session.GetObjectFromJson<Comment>("Thoughts");
+            // Check if the track exists
+            if (theTrack == null)
+            {
+                return Json(new List<Comment>()); // Return an empty list if no track found
+            }
 
-            List<Comment> coms = TheTrack.Comments;
-            if (coms == null)
+            // Retrieve comments for the track
+            var coms = theTrack.Comments ?? new List<Comment>();
+
+            // Store the comments in session if not already set
+            if (HttpContext.Session.GetObjectFromJson<List<Comment>>("Thoughts") == null)
             {
                 HttpContext.Session.SetObjectAsJson("Thoughts", coms);
-                return Json(coms);
-            }
-            else
-            {
-                return Json(coms);
             }
 
+            // Return comments as JSON
+            return Json(coms);
         }
+
 
         [HttpGet("track/{recId}")]
         public ViewResult TrackDetails(int recId)
         {
-            Recordis TheTrack = _context.Recs
-            .Include(r => r.Gears)
-            .ThenInclude(con => con.Gear)
-            .Include(r => r.Comments)
-            .Include(v => v.Aversions)
-            .FirstOrDefault(t => t.RecordisId == recId);
-            return View("TrackDetails", TheTrack); //i did not specify index since it will find it anyhow via line 24
+            Recordis theTrack = _context.Recs
+                .Include(r => r.Gears)
+                .ThenInclude(con => con.Gear)
+                .Include(r => r.Comments)
+                .Include(v => v.Aversions)
+                .FirstOrDefault(t => t.RecordisId == recId);
+            return View("TrackDetails", theTrack); //i did not specify index since it will find it anyhow via line 24
         }
 
         [HttpGet("new-track")]
@@ -81,17 +85,17 @@ namespace cSharp2022
             return View("AddRecForm");
         }
 
-        [HttpGet("/edit/track/add-version/{recId}")]
+        [HttpGet("/edit/track/add-version/{recId:int}")]
         public IActionResult DisplayAddVersionForm(int recId)
         {
             ViewBag.RecordisId = recId;
             return View("AddVForm");
         }
 
-        [HttpPost("/edit/track/post-version/{recId}")]
-        public async Task<IActionResult> SubmitAversion(Aversion FromForm, IFormFile uploadFile, int recId)
+        [HttpPost("/edit/track/post-version/{recId:int}")]
+        public async Task<IActionResult> SubmitAversion(Aversion fromForm, IFormFile uploadFile, int recId)
         {
-            var folderName = _context.Recs.Where(t => t.RecordisId == recId).First();
+            var folderName = _context.Recs.First(t => t.RecordisId == recId);
             if (uploadFile != null && uploadFile.Length > 0)
             {
                 var fileName = Path.GetFileName(uploadFile.FileName);
@@ -100,110 +104,138 @@ namespace cSharp2022
                 {
                     Directory.CreateDirectory(trackNameDir);
                 }
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), trackNameDir, fileName);//get a path of file for playback
+
+                var filePath =
+                    Path.Combine(Directory.GetCurrentDirectory(), trackNameDir,
+                        fileName); //get a path of file for playback
 
                 using (var fileSrteam = new FileStream(filePath, FileMode.Create))
                 {
                     await uploadFile.CopyToAsync(fileSrteam);
                 }
+
                 string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
                 string FormatSize(Int64 bytes)
                 {
                     int counter = 0;
                     decimal number = (decimal)bytes;
                     while (Math.Round(number / 1024) >= 1)
                     {
-                        number/=1024;
+                        number /= 1024;
                         counter++;
                     }
-                    return string.Format("{0:n1}{1}", number, suffixes[counter]);
+
+                    return $"{number:n1}{suffixes[counter]}"; //do not use String.format
                 }
+
                 string size = FormatSize(uploadFile.Length);
-                FromForm.Length = size;
-                FromForm.MediaFilePath = filePath;
-                FromForm.RecordisId = recId;
-                FromForm.Title = fileName;
-                _context.Add(FromForm);
-                _context.SaveChanges();
+                fromForm.Length = size;
+                fromForm.MediaFilePath = filePath;
+                fromForm.RecordisId = recId;
+                fromForm.Title = fileName;
+                _context.Add(fromForm);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("TrackDetails", new { recId });
             }
+
             return View("Dashboard");
         }
-       
+
         // ########################VERSION###################
         [HttpGet("version/delete/{trackId}/{vId}/")]
         public IActionResult DeleteVersion(int trackId, int vId)
         {
             var target = _context.Aversions
-            .Where(t => t.AversionId == vId)
-            .FirstOrDefault();
-            _context.Remove(target);
+                .FirstOrDefault(t => t.AversionId == vId);
+            if (target != null) _context.Remove((object)target);
             _context.SaveChanges();
             return RedirectToAction("TrackDetails", new { recId = trackId });
         }
 
-        [HttpPost("/associate2/{trackId}/")]
+        [HttpPost("/associate2/{trackId:int}/")]
         public IActionResult ConnectTool(Connect FromForm, int trackId)
         {
             var ToolsUsedOnTrack = _context.Connects
-            .Include(con => con.Recordis)
-            .Where(g => g.RecordisId == trackId);
+                .Include(con => con.Recordis)
+                .Where(g => g.RecordisId == trackId);
 
             if (ToolsUsedOnTrack.Any(x => x.GearId == FromForm.GearId))
             {
                 return NotFound(" Duplicate Entry");
             }
+
             if (ModelState.IsValid) //bs here
             {
-                FromForm.RecordisId = trackId;// BRINIGING from asp-route, part of FromForm or u can use hidden input
+                FromForm.RecordisId = trackId; // BRINGING from asp-route, part of fromForm or u can use hidden input
                 _context.Add(FromForm);
                 _context.SaveChanges();
-                return RedirectToAction("TrackDetails", new { recId = trackId });//error if View, why assign id like this?
+                return RedirectToAction("TrackDetails",
+                    new { recId = trackId }); //error if View, why assign id like this?
             }
+
             return View("TrackInfo", new { recId = trackId });
         }
 
         [HttpGet("delete/{trackId}/{connectId}")] //deletes tool assignments
         public IActionResult DeleteConnect(int connectId, int trackId)
         {
-            var x = _context.Connects
-            .Where(c => c.ConnectId == connectId).FirstOrDefault();
+            var x = _context.Connects.FirstOrDefault(c => c.ConnectId == connectId);
             _context.Remove(x);
             _context.SaveChanges();
+
             return RedirectToAction("TrackDetails", new { recId = trackId });
         }
 
         [HttpGet("/delete/track/{trackId}")]
-        public IActionResult DeleteTrack(int trackId)
+        public async Task<IActionResult> DeleteTrack(int trackId)
         {
-            var junk = _context.Recs
-            .Where(t => t.RecordisId == trackId).FirstOrDefault();
+            // Retrieve the track and its related aversions
+            var track = await _context.Recs
+                .Include(t => t.Aversions)
+                .FirstOrDefaultAsync(t => t.RecordisId == trackId);
 
-            var related = _context.Recs.Include(v => v.Aversions).SingleOrDefault(r => r.RecordisId == trackId);
-            foreach (var entry in related.Aversions.ToList())
-            _context.Aversions.Remove(entry); //removes all dependent children ("Aversions" here)
-            _context.Remove(junk);
-            _context.SaveChanges();
-
-            if (System.IO.File.Exists(junk.MediaFilePath))
+            if (track == null)
             {
-                System.IO.File.Delete(junk.MediaFilePath); //delete actual FILE (io)(not moving to trash!!!)
+                return NotFound($"Track with ID {trackId} not found.");
             }
-            var dirPath = junk.MediaFilePath.Split(junk.fileName);
-    
+
+            // Remove all related Aversions
+            foreach (var aversion in track.Aversions.ToList())
+            {
+                _context.Aversions.Remove(aversion);
+            }
+
+            // Remove the track
+            _context.Recs.Remove(track);
+
             try
             {
-                Console.WriteLine(dirPath[0]);
-                Directory.Delete(dirPath[0]);//clean up -delete parent directory
+                // Save changes asynchronously
+                await _context.SaveChangesAsync();
+
+                // Delete the media file if it exists
+                if (System.IO.File.Exists(track.MediaFilePath))
+                {
+                    System.IO.File.Delete(track.MediaFilePath);
+                }
+
+                // Get the parent directory path
+                var dirPath = Path.GetDirectoryName(track.MediaFilePath);
+                if (dirPath != null && Directory.Exists(dirPath))
+                {
+                    Directory.Delete(dirPath, true); // true to delete recursively
+                }
             }
             catch (Exception e)
             {
-                System.Console.WriteLine((e, "The actual file may be already deleted"));
-                // throw;
+                Console.WriteLine($"Error during deletion: {e.Message}");
+                return StatusCode(500, "An error occurred while deleting the track.");
             }
 
             return RedirectToAction("Dash");
         }
+
 
         [HttpGet("track/play/{trackId}")]
         public IActionResult EntryOpen(string trackName, int trackId)
@@ -227,7 +259,7 @@ namespace cSharp2022
 
         [HttpPost("{recId}/post")] //if missing, razor will look for a "form route" "/new-tool-form/" like above
         public IActionResult PostComment(Comment FromForm, int recId) //we create new entry in table based on the model 
-        // create1 is used in the form asp-action
+            // create1 is used in the form asp-action
         {
             if (ModelState.IsValid)
             {
@@ -247,10 +279,10 @@ namespace cSharp2022
 
         [HttpPost("add-track")]
         [RequestSizeLimit(100_000_000)]
-        public async Task<IActionResult> SubmitTrack(Recordis FromForm, IFormFile uploadFile) //we create new entry in table based on the model 
-        // submitTrack was named "IndexAsync" before stack
+        public async Task<IActionResult>
+            SubmitTrack(Recordis FromForm, IFormFile uploadFile) //we create new entry in table based on the model 
+            // submitTrack was named "IndexAsync" before stack
         {
-  
             // f.Tag.Album = "New Album Title";
             // f.Save();
             if (uploadFile != null && uploadFile.Length > 0)
@@ -259,21 +291,24 @@ namespace cSharp2022
                 FromForm.title ??= fileName;
                 var folderName = FromForm.title; //to create  folder named after track
                 var trackNameDir = $"wwwroot/audio/{@folderName}"; //to be used as a wrapper
-                
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), trackNameDir, fileName); //path to upload file to
+
+                var filePath =
+                    Path.Combine(Directory.GetCurrentDirectory(), trackNameDir, fileName); //path to upload file to
                 FromForm.MediaFilePath = filePath;
                 FromForm.fileName = uploadFile.FileName;
                 // TagLib.File f = TagLib.File.Create(uploadFile.FileName);
                 FromForm.artist ??= "Dude";
                 // if (FromForm.title == null) FromForm.title = fileName;
-               
+
                 FromForm.desc ??= "bluh bluh bluh";
                 if (!Directory.Exists(trackNameDir))
                 {
                     Directory.CreateDirectory(trackNameDir);
                 }
+
                 // https://www.c-sharpcorner.com/article/csharp-convert-bytes-to-kb-mb-gb/
                 string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
                 string FormatSize(Int64 bytes)
                 {
                     int counter = 0;
@@ -283,8 +318,10 @@ namespace cSharp2022
                         number /= 1024;
                         counter++;
                     }
+
                     return string.Format("{0:n1}{1}", number, suffixes[counter]);
                 }
+
                 string size = FormatSize(uploadFile.Length);
                 FromForm.length = size;
 
@@ -293,10 +330,12 @@ namespace cSharp2022
                 {
                     await uploadFile.CopyToAsync(fileSrteam);
                 }
+
                 _context.Recs.Add(FromForm);
                 _context.SaveChanges();
                 return RedirectToAction("Dash");
             }
+
             return NotFound("Did not post");
         }
 
@@ -313,31 +352,34 @@ namespace cSharp2022
             {
                 return RedirectToAction("Dash");
             }
-            FormWrapper TheRec = new FormWrapper(); //Dont forget to give it some data (below) 3/5/22
-            TheRec.RecForm = _context.Recs.FirstOrDefault(i => i.RecordisId == recId);
+
+            FormWrapper theRec = new FormWrapper
+            {
+                RecForm = _context.Recs.FirstOrDefault(i => i.RecordisId == recId)
+            };
 
             ViewBag.AllGear = _context.Gears.ToList();
             ViewBag.theSong = _context.Recs.FirstOrDefault(p => p.RecordisId == recId);
             ViewBag.UsedConnects = _context.Connects;
-            return View("EditTrack", TheRec);
+            return View("EditTrack", theRec);
         }
 
-        [HttpPost("update/rec/{id}")]
-        public IActionResult UpdateRec(int id, Recordis FromForm)
+        [HttpPost("update/rec/{id:int}")]
+        public IActionResult UpdateRec(int id, Recordis fromForm)
         {
             if (ModelState.IsValid)
             {
                 var x = _context.Recs.Where(t => t.RecordisId == id).AsNoTracking().FirstOrDefault();
-                FromForm.RecordisId = id;
-                string fileName = FromForm.fileName;
-                string[] cut = FromForm.MediaFilePath.Split("audio");
+                fromForm.RecordisId = id;
+                string fileName = fromForm.fileName;
+                string[] cut = fromForm.MediaFilePath.Split("audio");
                 string[] f = cut[1].Split(@fileName);
-                string fN = FromForm.title;
-                FromForm.CreatedAt = x.CreatedAt; //for now
+                string fN = fromForm.title;
+                fromForm.CreatedAt = x.CreatedAt; //for now
                 // string updatedPath = FromForm.MediaFilePath.Replace(f[0], "/" + fN + "/"); //update path for playback
                 // FromForm.MediaFilePath = updatedPath;
-                System.Console.WriteLine(_context.Entry(FromForm).Property("CreatedAt").IsModified);//already false
-                _context.Update(FromForm);
+                System.Console.WriteLine(_context.Entry(fromForm).Property("CreatedAt").IsModified); //already false
+                _context.Update(fromForm);
                 _context.SaveChanges();
                 // var path = $"wwwroot\\audio{f[0]}";
                 // if (x.title != FromForm.title)
@@ -352,30 +394,64 @@ namespace cSharp2022
             }
         }
 
-        [HttpGet("/tool/delete/{RecId}/{id}/")]
-        public IActionResult DeleteComment(int id, int RecId)
+        [HttpGet("/tool/delete/{recordID:int}/{comId:int}/")]
+        public IActionResult DeleteComment(int comId, int recordId)
         {
-            var x = _context.Comments
-            .Where(t => t.CommentId == id).First();
+            var x = _context.Comments.First(t => t.CommentId == comId);
             _context.Remove(x);
             _context.SaveChanges();
-            return RedirectToAction("TrackDetails", new { recId = RecId });
+
+            return RedirectToAction("TrackDetails", new { recId = recordId });
         }
 
+        //experimental
         [HttpGet("convert/{fileName}")]
-        public void mciConvertWavMP3(string fileName, bool waitFlag)
+        public async Task<IActionResult> MciConvertWavMP3(string fileName, bool waitFlag)
         {
             string pworkingDir = "wwwroot/lamecli/";
-            string outfile = "-b 32 --resample 22.05 -m m \"" + pworkingDir + fileName + "\" \"" + pworkingDir + fileName.Replace(".wav", ".mp3") + "\"";
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-            psi.FileName = "\"" + pworkingDir + "lame.exe" + "\"";
-            psi.Arguments = outfile;
-            psi.WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized;
-            System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
-            if (waitFlag)
+            string wavFilePath = Path.Combine(pworkingDir, fileName);
+            string mp3FilePath = Path.Combine(pworkingDir, fileName.Replace(".wav", ".mp3"));
+
+            // Check if the WAV file exists
+            if (!System.IO.File.Exists(wavFilePath))
             {
-                p.WaitForExit();
+                return NotFound($"The file {fileName} does not exist.");
             }
+
+            // Prepare the arguments for the conversion
+            string outfile = $"-b 32 --resample 22.05 -m m \"{wavFilePath}\" \"{mp3FilePath}\"";
+            var psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Path.Combine(pworkingDir, "lame.exe"),
+                Arguments = outfile,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            };
+
+            try
+            {
+                // Start the conversion process
+                using (var process = new System.Diagnostics.Process { StartInfo = psi })
+                {
+                    process.Start();
+
+                    if (waitFlag)
+                    {
+                        // Wait for the process to exit asynchronously
+                        await Task.Run(() => process.WaitForExit());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error (consider using a logging framework)
+                Console.WriteLine($"Error during conversion: {ex.Message}");
+                return StatusCode(500, "An error occurred during the conversion process.");
+            }
+
+            return Ok($"Conversion successful. Output file: {mp3FilePath}");
         }
     }
 }

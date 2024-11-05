@@ -1,65 +1,73 @@
-<h4>@Model.Make.ToLower()  @Model.title</h4>
+<h4>@Model.Make.ToLower() @Model.title</h4>
 <div style="display:flex">
     <p class="card-text">@Model.desc</p>
-    <p class="card-text">&nbsp @Model.role</p>
+    <p class="card-text">@Html.Raw("&nbsp;") @Model.role</p>
 </div>
-<a class="text-decoration-none" href="/gear/@Model.GearId/"><button class="btn btn-outline-info">edit</button></a>
+<a class="text-decoration-none" href="/gear/@Model.GearId/">
+    <button class="btn btn-outline-info">
+        edit
+    </button>
+</a>
 
 <div class="pretty-box">
     <h4>tool stats:</h4>
-     @{
+    @{
         decimal usedOn = Model.Recs.Count;
         decimal total = ViewBag.ToolStats.Count;
-        int per = Convert.ToInt32(usedOn/total*100);
+        int per = total > 0 ? Convert.ToInt32(usedOn / total * 100) : 0; // Avoid division by zero
     }
-<p>
-    @(
-    Model.Recs.Count > 0
-    ? $"used on {Model.Recs.Count} / {ViewBag.ToolStats.Count} projects ({per}%)"
-    : "no records yet"
-    )
-</p>
+    <p>
+        @(
+        Model.Recs.Count > 0
+            ? $"used on {Model.Recs.Count} / {total} projects ({per}%)"
+            : "no records yet"
+        )
+    </p>
 
-<label for="pickList"></label>
+    <label for="pickList"></label>
     <form>
         <select id="pickList"
-        style="width:50%"
-        class="form-select form-select-sm" 
-        aria-label=".form-select-sm" 
-        >
-                <option selected> @(Model.Recs.Count > 0 ? $"The projects with {Model.title} in order added" : "none")</option>
-                @foreach (var x in @Model.Recs)
-                {
-                    <option value="@x.Recordis.RecordisId">@x.Recordis.title </option>
-                }
+                style="width:50%"
+                class="form-select form-select-sm"
+                aria-label=".form-select-sm">
+            <option selected> @(Model.Recs.Count > 0 ? $"The projects with {Model.title} in order added" : "none")</option>
+            @foreach (var x in @Model.Recs)
+            {
+                <option value="@x.Recordis.RecordisId">@x.Recordis.title </option>
+            }
         </select>
     </form>
-    
+
 </div>
-    <a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
-        <button class="btn btn-outline-info">photo</button>
-    </a>
-<div class="image-card"> 
-    @* display associated images *@
-    @foreach (var x in @Model.Images)
+<a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
+    <button class="btn btn-outline-info">photo</button>
+</a>
+<div class="image-card">
+    @foreach (var img in @Model.Images)
     {
-    string[] cut = (x.Image.Path).Split("images"); 
-    //image path must be truncated in order for the image to be displayed from _allowed level_
-            <img src=~/images/@cut[1] class="card-img-top" alt="tool-photo">
-                @x.Image.Id
-            <a class="link-light text-decoration-none" href="/gear/@x.Image.Id/delete-photo/">
-                <button class="btn btn-warning">x</button>
-            </a>
+        string[] cut = (img.Image.Path).Split("images");
+        // Image path must be truncated in order for the image to be displayed correctly
+        <img src="~/images/@cut[1]"
+             alt="tool-photo">
+        @img.Image.Id
+        <a class="link-light text-decoration-none" href="/gear/@img.Image.Id/delete-photo/">
+            <button class="btn btn-warning">x</button>
+        </a>
     }
 </div>
 
+<style>
+    .image-card img {
+        max-width: 300px;
+        height: auto; /* Maintain aspect ratio */
+    }
+</style>
 
 <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
 <script>
-    $(function () {        
+    $(document).ready(function () {
         $('#pickList').change(function () {
             window.location.href = "/track/" + $(this).val();
-        })
+        });
     });
 </script>
-

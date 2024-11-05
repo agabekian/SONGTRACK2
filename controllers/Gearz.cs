@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using cSharp2022.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using cSharp2022.Models;
 
-namespace cSharp2022
+
+namespace cSharp2022.controllers
 {
     public class GearzController : Controller
     {
-        private MuhContext _context;
+        private readonly MuhContext _context;
         // "inject" context service into the constructor.
         public GearzController(MuhContext context)
         {
             _context = context;
         }
 
-        [HttpGet("/gear/{gearId}/info/")]
+        [HttpGet("/gear/info/{gearId:int}")]
         public IActionResult GearInfo(int gearId)
         {
             Gear id = _context.Gears
@@ -89,42 +90,61 @@ namespace cSharp2022
         [HttpGet("tools/{toolId}/del")]
         public IActionResult DeleteTool(int toolId)
         {
-            var x = _context.Gears
-            .Where(c => c.GearId == toolId).FirstOrDefault();
-            _context.Remove(x);
+            var x = _context.Gears.FirstOrDefault(c => c.GearId == toolId);
+            if (x == null) return NotFound($"Tool with ID {toolId} not found."); // 404 if doesn't exist
+            _context.Gears.Remove(x);
             _context.SaveChanges();
+            
             return RedirectToAction("Tools");
         }
-
+        
         [HttpPost("/gear/{gId}/add-photos/")]
         public async Task<IActionResult> PostImage(Image image, IFormFile uploadFile, int gId)
         {
-            if (uploadFile != null && uploadFile.Length > 0)
-            {
-                var fileName = Path.GetFileName(uploadFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-                // var filePath = Path.Combine("~/images", fileName);
-                image.Path = filePath;
-                _context.Images.Add(image);
-                _context.SaveChanges();
-                Album pix = new Album()
-                {
-                    GearId = gId,
-                    ImageId = image.Id
-                };
-                _context.Albums.Add(pix);
-                _context.SaveChanges();
+            // Check if a file was uploaded
+            if (uploadFile == null || uploadFile.Length <= 0) return RedirectToAction("GearInfo", new { gearId = gId });
+            
+            // Generate a unique file name to prevent collisions
+            var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(uploadFile.FileName)}";
+        
+            // Define the folder path where images will be stored
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+        
+            // Ensure the directory exists
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+            
+            // Combine the folder and file name
+            var filePath = Path.Combine(uploadsFolder, fileName);
+        
+            // Set the image path for saving to the database
+            image.Path = $"/images/{fileName}";
+        
+            // Save image information to the database
+            _context.Images.Add(image);
+            await _context.SaveChangesAsync();
 
-                using (var fileSrteam = new FileStream(filePath, FileMode.Create))
-                {
-                    await uploadFile.CopyToAsync(fileSrteam);
-                }
+            // Create and save the album entry that links the image to the gear
+            var albumEntry = new Album
+            {
+                GearId = gId,
+                ImageId = image.Id
+            };
+            _context.Albums.Add(albumEntry);
+            await _context.SaveChangesAsync();
+
+            // Save the file to the server
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await uploadFile.CopyToAsync(fileStream);
             }
+
+            // Redirect back to the gear information page
             return RedirectToAction("GearInfo", new { gearId = gId });
         }
 
-        [HttpPost("update/{id}")]
-        public IActionResult UpdateGear(int id, Gear FromForm)
+
+        [HttpPost("update/{id:int}")]
+        public IActionResult UpdateGear(int id, Gear fromForm)
         {
             if (ModelState.IsValid)
             {
@@ -133,9 +153,9 @@ namespace cSharp2022
                     return RedirectToAction("Dash");
                 }
 
-                FromForm.GearId = id;
-                _context.Entry(FromForm).Property("CreatedAt").IsModified = false;
-                _context.Update(FromForm);
+                fromForm.GearId = id;
+                _context.Entry(fromForm).Property("CreatedAt").IsModified = false;
+                _context.Update(fromForm);
                 _context.SaveChanges();
                 return RedirectToAction("GearInfo", new { gearId = id });
             }

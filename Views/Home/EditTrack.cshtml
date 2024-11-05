@@ -1,17 +1,23 @@
 @model FormWrapper
 <div class="form-box">
-    <div class="row">
-        <h3 class="text-warning">Edit Entry</h3>
-        <div class=col-sm-12>
-            <form 
-                asp-action="UpdateRec" 
-                asp-route-id="@Model.RecForm.RecordisId" 
-                asp-controller="Home"
-                asp-method="post"
-            >
-                    <partial name="_form1" model="@Model.RecForm" />
-            </form>
-            <partial name="_editEntry" model=@Model.ConnectForm />
-        </div>
+    <div class="row mb-4">
+        <h3 class="text-warning text-center">edit entry</h3>
+    </div>
+    <div class="col-sm-12">
+        <form
+            asp-action="UpdateRec"
+            asp-route-id="@Model.RecForm.RecordisId"
+            asp-controller="Home"
+            method="post"
+            class="p-4 border rounded shadow-sm bg-light">
+            <partial name="_form1" model="@Model.RecForm"/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Update Entry</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-12 mt-4">
+        <h4 class="text-muted">Additional Information</h4>
+        <partial name="_editEntry" model="@Model.ConnectForm"/>
     </div>
 </div>
