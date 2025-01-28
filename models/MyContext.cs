@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+
 namespace cSharp2022.Models
 {
-    // theMuhCOntext is of DbContext: the class represents a session with our MySQL db allowing to query/save data
-    //running update database will scaffold this
+    // MuhContext is of DbContext: the class represents a session with our MySQL db allowing to query/save data.
+    // Running update database will scaffold this
     public class MuhContext : DbContext
     {
         public MuhContext(DbContextOptions options) : base(options) { }
+
         public DbSet<Recordis> Recs { get; set; } //this will be actual SQL table's name!
         public DbSet<Gear> Gears { get; set; }
         public DbSet<Connect> Connects { get; set; }
@@ -15,4 +17,3 @@ namespace cSharp2022.Models
         public DbSet<Aversion> Aversions { get; set; }
     }
 }
-

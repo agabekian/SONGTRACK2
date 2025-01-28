@@ -37,18 +37,21 @@
             }
         </select>
     </form>
-
 </div>
 <a class="link-light text-decoration-none" href="/gear/@Model.GearId/add-photos/">
     <button class="btn btn-outline-info">photo</button>
 </a>
+
 <div class="image-card">
     @foreach (var img in @Model.Images)
     {
-        string[] cut = (img.Image.Path).Split("images");
-        // Image path must be truncated in order for the image to be displayed correctly
-        <img src="~/images/@cut[1]"
-             alt="tool-photo">
+        string[] cut = img.Image.Path.Split("images");
+        // Ensure the image path is properly constructed
+        string imgSrc = Url.Content("~/images/" + cut[1]);
+        <img src="@imgSrc"
+             alt="tool-photo"
+             class="thumbnail"
+             data-fullsize="@imgSrc">
         @img.Image.Id
         <a class="link-light text-decoration-none" href="/gear/@img.Image.Id/delete-photo/">
             <button class="btn btn-warning">x</button>
@@ -56,18 +59,43 @@
     }
 </div>
 
+<!-- Modal for full-size image display -->
+<div class="modal fade" id="fullSizeModal" tabindex="-1" aria-labelledby="fullSizeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fullSizeModalLabel">Full Size Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="fullSizeImage" src="" alt="Full Size Tool Photo" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
-    .image-card img {
+    .image-card img.thumbnail {
         max-width: 300px;
         height: auto; /* Maintain aspect ratio */
+        cursor: pointer; /* Indicate clickability */
     }
 </style>
 
 <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function () {
+        // Redirect on selection change
         $('#pickList').change(function () {
             window.location.href = "/track/" + $(this).val();
+        });
+
+        // Show full-size image in modal on thumbnail click
+        $('.thumbnail').click(function () {
+            var fullSizeSrc = $(this).data('fullsize');
+            $('#fullSizeImage').attr('src', fullSizeSrc);
+            $('#fullSizeModal').modal('show');
         });
     });
 </script>

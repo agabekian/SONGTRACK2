@@ -6,9 +6,8 @@ namespace cSharp2022.Models
 {
     public class Gear
     {
-        [Key]
-        public int GearId { get; set; }
-        
+        [Key] public int GearId { get; set; }
+
         [Required]
         [Display(Name = "Make")]
         [MinLength(1, ErrorMessage = "Make name must be at least 2 characters long")]
@@ -30,7 +29,7 @@ namespace cSharp2022.Models
         public string role { get; set; }
 
         public List<Connect> Recs { get; set; }
-        public List<Album> Images { get; set; }  //nav prop
+        public List<Album> Images { get; set; } //nav prop
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }

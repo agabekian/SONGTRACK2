@@ -37,7 +37,7 @@ namespace cSharp2022.controllers
         [HttpGet("/tools/")]
         public IActionResult Tools()
         {
-            List<Gear> allTools = _context.Gears.ToList();
+            var allTools = _context.Gears.ToList();
             return View(allTools);
         }
 
@@ -49,11 +49,11 @@ namespace cSharp2022.controllers
 
         [HttpPost("/post-new-tool/")]
         //if missing, razor will look for a "form route" "/new-tool-form/" like above
-        public IActionResult PostNewTool(Gear FromForm)
+        public IActionResult PostNewTool(Gear fromForm)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(FromForm);
+                _context.Add(fromForm);
                 _context.SaveChanges();
                 return RedirectToAction("Tools");
             }
@@ -66,10 +66,11 @@ namespace cSharp2022.controllers
         [HttpGet("/gear/{gearId}/")]
         public IActionResult DisplayEditGearForm(int gearId)
         {
-            Gear RetrievedGear = _context.Gears.FirstOrDefault(i => i.GearId == gearId);
-            return View("EditGear", RetrievedGear);
+            Gear retrievedGear = _context.Gears.FirstOrDefault(i => i.GearId == gearId);
+            return View("EditGear", retrievedGear);
         }
-
+        
+        //basic add form
         [HttpGet("/gear/{gearId}/add-photos")]
         public IActionResult DisplayAddGearPhotosForm()
         {
@@ -79,14 +80,54 @@ namespace cSharp2022.controllers
         [HttpGet("/gear/{imgId}/delete-photo")]
         public IActionResult DeleteImage(int imgId)
         {
-            Image imageToDelete = _context.Images.FirstOrDefault(i => i.Id == imgId);
-            System.IO.File.Delete(imageToDelete.Path); //delete file from wwwroot altogether
-            _context.Remove(imageToDelete); //del refs
-            _context.SaveChanges();
+            // Find the image in the database
+            var imageToDelete = _context.Images.FirstOrDefault(i => i.Id == imgId);
 
-            return RedirectToAction("Tools");
+            // Check if the image exists
+            if (imageToDelete == null)
+                return NotFound($"Image with ID {imgId} not found.");
+
+            // Retrieve the gearId associated with the image
+            var albumEntry = _context.Albums.FirstOrDefault(a => a.ImageId == imgId);
+            if (albumEntry == null)
+                return NotFound($"No gear found associated with the image ID {imgId}.");
+
+            int gearId = albumEntry.GearId;
+
+            try
+            {
+                // Delete the file from the server
+                if (System.IO.File.Exists(imageToDelete.Path))
+                {
+                    System.IO.File.Delete(imageToDelete.Path);
+                }
+                else
+                {
+                    // Log or notify that the file does not exist
+                    Console.WriteLine($"File {imageToDelete.Path} not found on disk.");
+                }
+
+                // Remove the image record from the database
+                _context.Images.Remove(imageToDelete);
+
+                // Remove the album entry linking the image to the gear
+                _context.Albums.Remove(albumEntry);
+
+                // Save the changes to the database
+                _context.SaveChanges();
+
+                // Redirect to the ToolInfo view for the gear
+                return RedirectToAction("GearInfo", new { gearId = gearId });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting the image: {ex.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the image.");
+            }
         }
 
+        //delete the tool completely
         [HttpGet("tools/{toolId}/del")]
         public IActionResult DeleteTool(int toolId)
         {
@@ -98,11 +139,12 @@ namespace cSharp2022.controllers
             return RedirectToAction("Tools");
         }
         
-        [HttpPost("/gear/{gId}/add-photos/")]
-        public async Task<IActionResult> PostImage(Image image, IFormFile uploadFile, int gId)
+        //add photos to tool
+        [HttpPost("/gear/{gearId}/add-photos/")]
+        public async Task<IActionResult> PostImage(Image image, IFormFile uploadFile, int gearId)
         {
             // Check if a file was uploaded
-            if (uploadFile == null || uploadFile.Length <= 0) return RedirectToAction("GearInfo", new { gearId = gId });
+            if (uploadFile == null || uploadFile.Length <= 0) return RedirectToAction("GearInfo", new { gearId = gearId });
             
             // Generate a unique file name to prevent collisions
             var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(uploadFile.FileName)}";
@@ -126,7 +168,7 @@ namespace cSharp2022.controllers
             // Create and save the album entry that links the image to the gear
             var albumEntry = new Album
             {
-                GearId = gId,
+                GearId = gearId,
                 ImageId = image.Id
             };
             _context.Albums.Add(albumEntry);
@@ -139,7 +181,7 @@ namespace cSharp2022.controllers
             }
 
             // Redirect back to the gear information page
-            return RedirectToAction("GearInfo", new { gearId = gId });
+            return RedirectToAction("GearInfo", new { gearId = gearId });
         }
 
 

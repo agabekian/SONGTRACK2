@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace cSharp2022.Models
 {
     public class Comment
     {
-        [Key]
-        public int CommentId { get; set; }
+        [Key] public int CommentId { get; set; }
+
+        [MaxLength(64, ErrorMessage = "maxlength is 64 chars")]
         public string Title { get; set; }
         public string Content { get; set; }
         public int RecordisId { get; set; }
