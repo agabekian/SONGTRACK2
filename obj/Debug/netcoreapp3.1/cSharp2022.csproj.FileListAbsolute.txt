@@ -77,8 +77,8 @@
 /Users/armasconi/CSHARP2024/SONGTRACK2/obj/Debug/netcoreapp3.1/cSharp2022.genruntimeconfig.cache
 C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\appsettings.json
-C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\global.json
+C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\cSharp2022.exe
 C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\cSharp2022.deps.json
 C:\Users\Bermen\RiderProjects\SONGTRACK2\bin\Debug\netcoreapp3.1\cSharp2022.runtimeconfig.json

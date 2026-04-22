@@ -1,1 +1,29 @@
-wwwroot/audio
+## Build output
+bin/
+obj/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider / JetBrains
+.idea/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+
+## Publish output
+publish/
+
+## Local secrets (optional but recommended)
+appsettings.Development.json
+
+## EF Core (DO NOT IGNORE MIGRATIONS)
+# Migrations/  <-- keep this tracked
