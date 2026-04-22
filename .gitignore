@@ -31,3 +31,5 @@ appsettings.Development.json
 .idea
 .DS_Store
 .DotSettings.user
+
+properties
