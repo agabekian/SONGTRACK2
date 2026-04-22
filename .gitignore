@@ -29,3 +29,4 @@ appsettings.Development.json
 # Migrations/  <-- keep this tracked
 
 .idea
+.DS_Store
