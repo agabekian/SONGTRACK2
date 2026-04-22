@@ -154,27 +154,29 @@ namespace cSharp2022
         }
 
         [HttpPost("/associate2/{trackId:int}/")]
-        public IActionResult ConnectTool(Connect FromForm, int trackId)
+        public IActionResult ConnectTool(Connect fromForm, int trackId)
         {
-            var ToolsUsedOnTrack = _context.Connects
-                .Include(con => con.Recordis)
-                .Where(g => g.RecordisId == trackId);
+            var gearExists = _context.Gears.Any(g => g.GearId == fromForm.GearId);
 
-            if (ToolsUsedOnTrack.Any(x => x.GearId == FromForm.GearId))
+            if (!gearExists)
             {
-                return NotFound(" Duplicate Entry");
+                return BadRequest("Invalid GearId selected.");
             }
 
-            if (ModelState.IsValid) //bs here
+            var alreadyExists = _context.Connects
+                .Any(x => x.RecordisId == trackId && x.GearId == fromForm.GearId);
+
+            if (alreadyExists)
             {
-                FromForm.RecordisId = trackId; // BRINGING from asp-route, part of fromForm or u can use hidden input
-                _context.Add(FromForm);
-                _context.SaveChanges();
-                return RedirectToAction("TrackDetails",
-                    new { recId = trackId }); //error if View, why assign id like this?
+                return RedirectToAction("TrackDetails", new { recId = trackId });
             }
 
-            return View("TrackInfo", new { recId = trackId });
+            fromForm.RecordisId = trackId;
+
+            _context.Connects.Add(fromForm);
+            _context.SaveChanges();
+
+            return RedirectToAction("TrackDetails", new { recId = trackId });
         }
 
         [HttpGet("delete/{trackId}/{connectId}")] //deletes tool assignments

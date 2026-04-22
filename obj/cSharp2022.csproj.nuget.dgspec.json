@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/armasconi/CSHARP2024/SONGTRACK2/cSharp2022.csproj": {}
+    "C:\\Users\\Bermen\\RiderProjects\\SONGTRACK2\\cSharp2022.csproj": {}
   },
   "projects": {
-    "/Users/armasconi/CSHARP2024/SONGTRACK2/cSharp2022.csproj": {
+    "C:\\Users\\Bermen\\RiderProjects\\SONGTRACK2\\cSharp2022.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/armasconi/CSHARP2024/SONGTRACK2/cSharp2022.csproj",
+        "projectUniqueName": "C:\\Users\\Bermen\\RiderProjects\\SONGTRACK2\\cSharp2022.csproj",
         "projectName": "cSharp2022",
-        "projectPath": "/Users/armasconi/CSHARP2024/SONGTRACK2/cSharp2022.csproj",
-        "packagesPath": "/Users/armasconi/.nuget/packages/",
-        "outputPath": "/Users/armasconi/CSHARP2024/SONGTRACK2/obj/",
+        "projectPath": "C:\\Users\\Bermen\\RiderProjects\\SONGTRACK2\\cSharp2022.csproj",
+        "packagesPath": "C:\\Users\\Bermen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Bermen\\RiderProjects\\SONGTRACK2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/armasconi/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Bermen\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -69,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.426/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     }
