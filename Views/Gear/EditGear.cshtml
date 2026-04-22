@@ -1,7 +1,7 @@
 @model Gear
 <div class="form-box">
 
-    <form asp-action="UpdateGear" asp-route-id="@Model.GearId" asp-controller="Gearz" asp-method="post">
+    <form asp-action="UpdateGear" asp-route-id="@Model.GearId" asp-controller="Gear" asp-method="post">
         <div class="form-group-row">
             <span asp-validation-for="Make" class="col-sm-8"></span>
             <label asp-for="Make" class="col-sm-4"></label>

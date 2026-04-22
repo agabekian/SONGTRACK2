@@ -9,6 +9,7 @@ namespace cSharp2022.Models
 
         [MaxLength(64, ErrorMessage = "maxlength is 64 chars")]
         public string Title { get; set; }
+        [MaxLength(256, ErrorMessage = "maxlength is 256 chars")]
         public string Content { get; set; }
         public int RecordisId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +10,11 @@ using cSharp2022.Models;
 
 namespace cSharp2022.controllers
 {
-    public class GearzController : Controller
+    public class GearController : Controller
     {
         private readonly MuhContext _context;
         // "inject" context service into the constructor.
-        public GearzController(MuhContext context)
+        public GearController(MuhContext context)
         {
             _context = context;
         }
@@ -63,7 +62,7 @@ namespace cSharp2022.controllers
             }
         }
 
-        [HttpGet("/gear/{gearId}/")]
+        [HttpGet("/gear/{gearId:int}/")]
         public IActionResult DisplayEditGearForm(int gearId)
         {
             Gear retrievedGear = _context.Gears.FirstOrDefault(i => i.GearId == gearId);
